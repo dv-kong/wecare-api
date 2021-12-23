@@ -15,7 +15,11 @@ const middlewares = { // server.use(middleware)
      json: express.json(),
      urlencoded: express.urlencoded({extended: false}),
      cookie: cookieParser(),
-     cors: cors(),
+     cors: cors({
+          origin: 'http://localhost:3001',
+          credentials: true, //access-control-allow-credentials:true
+          optionSuccessStatus: 200
+        }),
      apiLogger: morgan('dev')
 }
 

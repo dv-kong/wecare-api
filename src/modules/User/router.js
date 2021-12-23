@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { isAuth, refreshAccess, isAdmin } from "../../middlewares/auth";
+// import enableCors  from '../../middlewares/cors';
 
 export default (controller) => {
   const router = Router();

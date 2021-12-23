@@ -4,7 +4,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import env from "../../config/env";
 import ApiError from "../../helpers/error";
-class UserController {
+class UserController { // To function correctly, this controller needs the supplied models
+  // dependency == what a class need to function
   #models;
   constructor(models) {
     this.#models = models;
@@ -46,13 +47,15 @@ class UserController {
 
   login = async (req, res, next) => {
     const { email, password } = req.body;
+    console.log('user input>:', email, password);
 
+    
     try {
       const user = await User.findOne({
         attributes: ["email", "password", "id", "role"],
         where: { email: email },
       });
-
+      
       // Compares the password in the request (req) with the password stored in the database.
       const correct = await bcrypt.compare(password, user.password);
       if (!correct) {
