@@ -21,6 +21,10 @@ class User extends Model {
           type: DataTypes.STRING,
           allowNull: false,
         },
+        gender: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
         email: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -52,6 +56,10 @@ class User extends Model {
           type: DataTypes.STRING,
           allowNull: true,
         },
+        postal_code: {
+          type: DataTypes.STRING,
+          allowNull: true
+        },
         access_token: {
           type: DataTypes.STRING,
           allowNull: true,
@@ -59,6 +67,11 @@ class User extends Model {
         refresh_token: {
           type: DataTypes.STRING,
           allowNull: true,
+        },
+        email_validated: {
+          type: DataTypes.BOOLEAN,
+          allowNull: true,
+          defaultValue: false,
         },
         banned: {
           type: DataTypes.BOOLEAN,

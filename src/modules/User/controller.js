@@ -4,7 +4,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import env from "../../config/env";
 import ApiError from "../../helpers/error";
-class UserController { // To function correctly, this controller needs the supplied models
+class UserController {
+  // To function correctly, this controller needs the supplied models
   // dependency == what a class need to function
   #models;
   constructor(models) {
@@ -14,8 +15,20 @@ class UserController { // To function correctly, this controller needs the suppl
    * @login takes a request, a response and a next function
    * @param
    */
-  signUp = async (req, res, next) => {
-    const { email, password, first_name, last_name } = req.body;
+  register = async (req, res, next) => {
+    const {
+      email,
+      password,
+      first_name,
+      last_name,
+      postal_code,
+      address,
+      gender,
+      city,
+      phone_number,
+      social_security_number,
+    } = req.body;
+    console.log("email>>>", email);
     try {
       const user = await User.findOne({
         attributes: ["email"],
@@ -35,11 +48,19 @@ class UserController { // To function correctly, this controller needs the suppl
         first_name,
         last_name,
         role: "user",
+        postal_code,
+        address,
+        gender,
+        city,
+        phone_number,
+        social_security_number,
       });
 
       return res
         .status(200)
-        .json({ message: "Successfully created an account." });
+        .json({
+          message: "Successfully created an account with email: " + email,
+        });
     } catch (error) {
       next(error);
     }
@@ -47,15 +68,14 @@ class UserController { // To function correctly, this controller needs the suppl
 
   login = async (req, res, next) => {
     const { email, password } = req.body;
-    console.log('user input>:', email, password);
+    console.log("user input>:", email, password);
 
-    
     try {
       const user = await User.findOne({
         attributes: ["email", "password", "id", "role"],
         where: { email: email },
       });
-      
+
       // Compares the password in the request (req) with the password stored in the database.
       const correct = await bcrypt.compare(password, user.password);
       if (!correct) {

@@ -6,7 +6,7 @@ export default (controller) => {
   const router = Router();
 
   router.route("/").get(isAuth, controller.getUsers);
-  router.route("/signup").post(controller.signUp);
+  router.route("/register").post(controller.register);
   router.route("/login").post(controller.login);
   router.route("/delete").delete(controller.deleteUser);
   router.route("/update").put(controller.updateUser);
