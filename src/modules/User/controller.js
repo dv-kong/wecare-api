@@ -108,7 +108,7 @@ class UserController {
         expiresIn: "30d",
         httpOnly: true,
       });
-      res.status(200).json({ token: user.access_token });
+      res.status(200).json({ access_token: user.access_token });
     } catch (error) {
       next(error);
     }
