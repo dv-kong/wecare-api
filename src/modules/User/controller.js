@@ -56,11 +56,9 @@ class UserController {
         social_security_number,
       });
 
-      return res
-        .status(200)
-        .json({
-          message: "Successfully created an account with email: " + email,
-        });
+      return res.status(200).json({
+        message: "Successfully created an account with email: " + email,
+      });
     } catch (error) {
       next(error);
     }
@@ -68,13 +66,26 @@ class UserController {
 
   login = async (req, res, next) => {
     const { email, password } = req.body;
-    console.log("user input>:", email, password);
 
     try {
       const user = await User.findOne({
-        attributes: ["email", "password", "id", "role"],
+        attributes: [
+          "id",
+          "email",
+          "password",
+          "first_name",
+          "last_name",
+          "gender",
+          "postal_code",
+          "city",
+          "address",
+          "social_security_number",
+          "role",
+          "gender",
+        ],
         where: { email: email },
       });
+
 
       // Compares the password in the request (req) with the password stored in the database.
       const correct = await bcrypt.compare(password, user.password);
@@ -100,6 +111,7 @@ class UserController {
         expiresIn: "30d",
       });
       // Save the user properties to the database
+      // user.first_name = "joe"
       await user.save();
 
       // Store refresh token and his properties in cookie with "refresh_token" key
@@ -108,7 +120,25 @@ class UserController {
         expiresIn: "30d",
         httpOnly: true,
       });
-      res.status(200).json({ access_token: user.access_token });
+      res.status(200).json(
+        // {
+        // id: user.id,
+        // email: user.email,
+        // password: user.password,
+        // access_token: user.access_token,
+        // first_name: user.first_name,
+        // last_name: user.last_name,
+        // gender: user.gender,
+        // postal_code: user.postal_code,
+        // city: user.city,
+        // address: user.address,
+        // social_security_number: user.social_security_number,
+        // phone_number: user.phone_number,
+        // role: user.role,
+      // }
+        user
+    // }
+    );
     } catch (error) {
       next(error);
     }
