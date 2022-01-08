@@ -86,7 +86,6 @@ class UserController {
         where: { email: email },
       });
 
-
       // Compares the password in the request (req) with the password stored in the database.
       const correct = await bcrypt.compare(password, user.password);
       if (!correct) {
@@ -120,25 +119,19 @@ class UserController {
         expiresIn: "30d",
         httpOnly: true,
       });
-      res.status(200).json(
-        // {
-        // id: user.id,
-        // email: user.email,
-        // password: user.password,
-        // access_token: user.access_token,
-        // first_name: user.first_name,
-        // last_name: user.last_name,
-        // gender: user.gender,
-        // postal_code: user.postal_code,
-        // city: user.city,
-        // address: user.address,
-        // social_security_number: user.social_security_number,
-        // phone_number: user.phone_number,
-        // role: user.role,
-      // }
-        user
-    // }
-    );
+      res.status(200).json({
+          // id: user.id,
+          email: user.email,
+          access_token: user.access_token,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          gender: user.gender,
+          postal_code: user.postal_code,
+          city: user.city,
+          address: user.address,
+          social_security_number: user.social_security_number,
+          phone_number: user.phone_number,
+      });
     } catch (error) {
       next(error);
     }
