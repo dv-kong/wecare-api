@@ -15,6 +15,53 @@ class UserController {
    * @login takes a request, a response and a next function
    * @param
    */
+
+
+    getUserById = async (req, res, next) => { // getUserById if access_token is valid (isAuth)
+    const { id } = req.body;
+
+    try {
+      const user = await User.findOne({
+        attributes: [
+          "id",
+          "email",
+          "password",
+          "first_name",
+          "last_name",
+          "gender",
+          "postal_code",
+          "city",
+          "address",
+          "social_security_number",
+          "role",
+          "gender",
+        ],
+        where: { id: id },
+      });
+
+     
+      res.status(200).json({
+          access_token: user.access_token,
+          id: user.id,
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          gender: user.gender,
+          postal_code: user.postal_code,
+          city: user.city,
+          address: user.address,
+          social_security_number: user.social_security_number,
+          phone_number: user.phone_number,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+
+
+
+
   register = async (req, res, next) => {
     const {
       email,
@@ -107,9 +154,7 @@ class UserController {
         }
       );
       user.refresh_token = jwt.sign({ id: user.id, role: user.role }, env.jwt_secret, {
-        expiresIn: "30d",
-        httpOnly: true,
-
+        expiresIn: "30d"
       });
       // Save the user properties to the database
       // user.first_name = "joe"
@@ -128,9 +173,9 @@ class UserController {
      
      
       res.status(200).json({
-        // access_token: user.access_token,
-        // refresh_token: user.refresh_token,
-          // id: user.id,
+          access_token: user.access_token,
+          // refresh_token: user.refresh_token,
+          id: user.id,
           email: user.email,
           first_name: user.first_name,
           last_name: user.last_name,

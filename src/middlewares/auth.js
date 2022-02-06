@@ -15,24 +15,27 @@ const isAuth = async (req, res, next) => {
   // refresh token valid ? -> gen new access token
   try {
     let access_token = req.headers.authorization.split(" ")[1];
-    console.log(req.headers)
+    console.log(`!! access TOKEN : `,access_token)
     
     // id, role, iat, exp
     const refresh_token = req.cookies["refresh_token"]; // TODO
+    console.log(`!! refresh TOKEN : `,refreh_token)
 // id, role, iat, exp
-    if (!refresh_token)
-      return res.status(401).json("Session expired, please log in.");
+    // if (!refresh_token)
+      // return res.status(401).json("Session expired, please log in.");
 
-      const tokenValid = await jwt.verify(refresh_token, config.jwt_secret);
-      console.log(`tokenValid`,tokenValid);
+      const accessTokenValid = await jwt.verify(access_token, config.jwt_secret);
+      // const refreshTokenValid = await jwt.verify(refresh_token, config.jwt_secret);
+      console.log(`accessTokenValid`,accessTokenValid);
 
     
 
-    let user = await User.findOne({ where: { access_token, refresh_token } }); // Get only once
+    let user = await User.findOne({ where: { access_token } }); // Get only once
+    // let user = await User.findOne({ where: { access_token, refresh_token } }); // Get only once
 
     if (!user) return res.status(401).json("Session expired.");
 
-    await jwt.verify(access_token, config.jwt_secret); //TODO
+    // await jwt.verify(access_token, config.jwt_secret); //TODO
 
     req.user = user;
     next();

@@ -10,7 +10,7 @@ export default (controller) => {
   router.route("/login").post(controller.login);
   router.route("/delete").delete(controller.deleteUser);
   router.route("/update").put(controller.updateUser);
-  // router.route("/refresh-data").post(isAuth);
+  router.route("/refresh-data").post(isAuth, controller.getUserById);
 
   return router;
 };
