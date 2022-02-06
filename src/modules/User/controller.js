@@ -106,8 +106,10 @@ class UserController {
           expiresIn: "5m", // TODO: change to 15m
         }
       );
-      user.refresh_token = jwt.sign({ id: user.id }, env.jwt_secret, {
+      user.refresh_token = jwt.sign({ id: user.id, role: user.role }, env.jwt_secret, {
         expiresIn: "30d",
+        httpOnly: true,
+
       });
       // Save the user properties to the database
       // user.first_name = "joe"
@@ -115,14 +117,21 @@ class UserController {
 
       // Store refresh token and his properties in cookie with "refresh_token" key
       // The HttpOnly flag is an additional flag included in a Set-Cookie HTTP response header. It is used to prevent a Cross-Site Scripting exploit from gaining access to the session cookie and hijacking the victim's session.
+     
       res.cookie("refresh_token", user.refresh_token, {
         expiresIn: "30d",
         httpOnly: true,
       });
+      // user.refresh_token = jwt.sign({ id: user.id }, env.jwt_secret, {
+        // expiresIn: "30d",
+      // });
+     
+     
       res.status(200).json({
+        // access_token: user.access_token,
+        // refresh_token: user.refresh_token,
           // id: user.id,
           email: user.email,
-          access_token: user.access_token,
           first_name: user.first_name,
           last_name: user.last_name,
           gender: user.gender,
@@ -151,6 +160,22 @@ class UserController {
       next(err);
     }
   };
+
+  
+
+  //   silentUserAuthentication = async (req, res, next) => {
+  //     const { access_token,refresh_token } = req.body;
+
+  // // jwt.verify(access_token, )
+  //     try {
+  //       const docs = await this.#models;
+  //       await res.status(200).json({ message: "GET ALL USERS FROM DB" });
+  //     } catch (err) {
+  //       next(err);
+  //     }
+  //   };
+
+
 
   deleteUser = async (req, res, next) => {
     //TODO

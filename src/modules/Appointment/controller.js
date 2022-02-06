@@ -73,9 +73,9 @@ class AppointmentController {
           expiresIn: "5m", // TODO: change to 15m
         }
       );
-      user.refresh_token = jwt.sign({ id: user.id }, env.jwt_secret, {
-        expiresIn: "30d",
-      });
+      // user.refresh_token = jwt.sign({ id: user.id }, env.jwt_secret, {
+      //   expiresIn: "30d",
+      // });
       // Save the user properties to the database
       await user.save();
 

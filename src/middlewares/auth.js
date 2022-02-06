@@ -3,19 +3,36 @@ import decode from "jsonwebtoken/decode";
 import config from "../config/env";
 import User from "../modules/User/model";
 
+
 const isAuth = async (req, res, next) => {
+
+
+  // get token, token ok ? 200
+  // token invalid ? 40*
+  // token expired ? -> use refresh token
+  // refresh token invalid ? 40*
+  // refresh token expired ? -> send "please log in"
+  // refresh token valid ? -> gen new access token
   try {
     let access_token = req.headers.authorization.split(" ")[1];
-    const refresh_token = req.cookies["refresh_token"];
-
+    console.log(req.headers)
+    
+    // id, role, iat, exp
+    const refresh_token = req.cookies["refresh_token"]; // TODO
+// id, role, iat, exp
     if (!refresh_token)
       return res.status(401).json("Session expired, please log in.");
 
-    let user = await User.findOne({ where: { access_token, refresh_token } });
+      const tokenValid = await jwt.verify(refresh_token, config.jwt_secret);
+      console.log(`tokenValid`,tokenValid);
+
+    
+
+    let user = await User.findOne({ where: { access_token, refresh_token } }); // Get only once
 
     if (!user) return res.status(401).json("Session expired.");
 
-    await jwt.verify(access_token, config.jwt_secret);
+    await jwt.verify(access_token, config.jwt_secret); //TODO
 
     req.user = user;
     next();
@@ -23,9 +40,11 @@ const isAuth = async (req, res, next) => {
     return res.status(401).json(error.message);
   }
 };
-const refreshAccess = async (req, res, next) => {
+const refreshAccessToken = async (req, res, next) => {
   try {
-    let refresh_token = req.cookies["refresh_token"];
+    const refresh_token = req.cookies["refresh_token"]; // TODO
+
+    // let refresh_token = req.body.refresh_token;
 
     if (!refresh_token) return res.status(404).json("Invalid refresh token");
 
@@ -34,6 +53,11 @@ const refreshAccess = async (req, res, next) => {
 
   }
 };
+// generate access token from valid refresh token
+const generateAccessToken = async (req, res, next) => {
+
+}
+
 
 const isAdmin = async (req, res, next) => {
   try {
@@ -53,4 +77,4 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-export { isAuth, refreshAccess, isAdmin };
+export { isAuth, refreshAccessToken, isAdmin };
