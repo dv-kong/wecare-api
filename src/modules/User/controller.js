@@ -18,7 +18,21 @@ class UserController {
 
 
     getUserById = async (req, res, next) => { // getUserById if access_token is valid (isAuth)
-    const { id } = req.body;
+    // const { id } = req.body;
+
+    let userId;
+    if (res.locals.user) {
+      // console.log(`getUserById > res.locals`, res.locals);
+ userId = res.locals.user.dataValues.id;
+console.log(`!!! getUserById > userId`, userId);
+  } else {
+      console.log(`error`); //TODO
+  }
+
+
+    // console.log(`!!req.headers`,req.headers);
+    let access_token = req.headers.authorization.split(" ")[1];
+    console.log(`!! access token : `,access_token);
 
     try {
       const user = await User.findOne({
@@ -36,7 +50,7 @@ class UserController {
           "role",
           "gender",
         ],
-        where: { id: id },
+        where: { id: userId },
       });
 
      
