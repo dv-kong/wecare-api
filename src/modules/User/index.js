@@ -11,4 +11,6 @@ const models = {User, Appointment}; // IoD for Unit Testing
 const controller = new UserController(models)
 const routes = router(controller)
 
+
+
 export default routes;
