@@ -1,7 +1,8 @@
-import UserRouter from "./User/";
+import {userRouter} from './User'
+
 const routes = {
   // base route ex: http://localhost:3000/users/...
-  "/users": UserRouter,
+  "/users": userRouter,
   // "/doctors": UserRouter,
 
   //   "*": 404Router,

@@ -1,6 +1,7 @@
 import { Model, DataTypes, UUID, UUIDV4 } from "sequelize";
 import db from "../../config/db.js";
 import Joi from "joi";
+import AppointmentModel from '../Appointment/model';
 
 class User extends Model {
   static init(sequelize) {
@@ -86,8 +87,8 @@ class User extends Model {
     );
   }
 
-static associate(models) {
-  this.hasMany(models.Appointment, { as: "appointment_id" });
+static associate() {
+  this.hasMany(AppointmentModel, { as: "appointment_id" });
   return this;
 
   }

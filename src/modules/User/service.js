@@ -1,14 +1,22 @@
+import UserDTO from './dto';
+import bcrypt from "bcrypt";
+import { ApiError } from '../../helpers/error';
+
 // get data sent by repository
 
 class UserService {
-  constructor() {}
+  
+    constructor(userRepository) {
+        this.UserRepository = userRepository;
+    }
 
   async create(user) {
-    await UserRepository.create(user);
+    const newUser = await this.UserRepository.create();
+    return new UserDTO(newUser);
   }
 
-  async findUser(email) {
-    const user = await UserRepository.findUser(email);
+  async findByEmail(email) {
+    const user = await this.UserRepository.find(email);
 
     if (user) {
       throw new ApiError(403, "Email already exists!");
@@ -21,7 +29,9 @@ class UserService {
     
     const {email, password} = credentials;
 
-    const user = await UserRepository.getUser(email);
+    const requestedUser = await this.UserRepository.login(email);
+
+    const user = new UserDTO(requestedUser);
 
     // Compares the password in the request (req) with the password stored in the database.
     const correct = await bcrypt.compare(password, user.password);
@@ -33,7 +43,7 @@ class UserService {
   }
 
   async update(jwtTokens, email) {
-      await UserRepository.update(jwtTokens,email);
+      await this.UserRepository.update(jwtTokens,email);
 
   }
 
@@ -43,7 +53,7 @@ class UserService {
     if (!id) {
       throw new ApiError(400, "ID not found.");
     }
-    return await UserRepository.delete(id);
+    return await this.UserRepository.delete(id);
   }
 
   async findById(req, res) {
@@ -53,7 +63,7 @@ class UserService {
       userId = res.locals.user.dataValues.id;
     }
 
-    const user = await this.userRepo.findOne(userId);
+    const user = await this.UserRepository.findOne(userId);
 
     if (!user) {
       throw new ApiError(404, "User not found.");

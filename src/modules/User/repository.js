@@ -1,12 +1,17 @@
 import bcrypt from "bcrypt";
-import User from "./dao";
 
 // repository: handle database operations
 // send data back to service
 
 class UserRepository {
+
+    constructor(userDao) {
+        this.userDAO = userDao;
+    }
+
+
   async findByEmail(email) {
-    const user = await User.findOne({
+    const user = await this.userDAO.findOne({
       attributes: ["email"],
       where: { email: email },
     });
@@ -15,42 +20,23 @@ class UserRepository {
   }
 
   async create(user) {
-    const {
-      email,
-      password,
-      first_name,
-      last_name,
-      postal_code,
-      address,
-      gender,
-      city,
-      phone_number,
-      social_security_number,
-    } = user;
-
-    const salt = await bcrypt.genSalt(10); // param = saltRounds
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    let user = await User.create({
-      email,
-      password: hashedPassword,
-      first_name,
-      last_name,
-      role: "user",
-      postal_code,
-      address,
-      gender,
-      city,
-      phone_number,
-      social_security_number,
+    let newUser = await this.userDAO.create({
+      ...user,
+      ...{password: hashedPassword,
+      role: "user"} 
     });
 
-    console.log(`LOG CREATE USER `, user);
+    console.log(`LOG CREATE USER `, newUser);
+
+    return newUser;
   }
 
   async login(email) {
 
-    const user = await User.findOne({
+    const user = await this.userDAO.findOne({
         attributes: [
           "id",
           "email",
@@ -75,7 +61,7 @@ class UserRepository {
   async update(jwtTokens, email) {
     const {access_token, refresh_token} = jwtTokens;
     
-    const user = User.findOne({
+    const user = this.userDAO.findOne({
         attributes: ["email"],
         where: { email: email },
       });
@@ -84,13 +70,13 @@ class UserRepository {
     user.refresh_token = refresh_token;
 
     // Save the user properties to the database
-    let user = await user.save();
-    console.log(`UPDATED USER`, user);
+    const userLog = await this.userDAO.save();
+    console.log(`UPDATED USER`, userLog);
   }
 
 
   async delete(id) {
-    const deletedUser = await User.destroy({
+    const deletedUser = await this.userDAO.destroy({
       where: { id: id },
     });
     console.log(deletedUser, "deletedUser");
@@ -98,7 +84,7 @@ class UserRepository {
 
   async findById(id) {
 
-    const user = await User.findOne({
+    const user = await this.userDAO.findOne({
       attributes: [
         "id",
         "email",
@@ -118,3 +104,5 @@ class UserRepository {
     return await user;
   }
 }
+
+export default UserRepository;

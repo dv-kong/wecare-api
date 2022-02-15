@@ -10,7 +10,10 @@ class Server {
  * 
 */
 middlewares(middlewares) {
+    
+    // console.log(`serverjs -> middlewares`, middlewares);
     for (const key in middlewares) {
+        
        this.#http.use(middlewares[key]); 
     }
 }
@@ -21,6 +24,7 @@ middlewares(middlewares) {
  * @TODO param (routes)
  */
 routes(routes) {
+    // console.log(`serverjs -> routes`, routes);
     for(const path in routes) {
         this.#http.use(path, routes[path]);
     }
