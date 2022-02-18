@@ -1,14 +1,14 @@
 import express from "express";
-import env from "./src/config/env.js";
-import Server from "./src/config/server.js";
-import middlewares from "./src/config/middlewares.js";
-import routes from "./src/modules";
+import env from "./config/env.js";
+import Server from "./config/server.js";
+import middlewares from "./config/middlewares.js";
+import routes from "./modules";
 
 // import UserController from "./src/modules/User/controller"; // To create a user on database reset
 // import User from "./src/modules/User/model";
-import signUpTestUser from "./dev/signUpTestUser";
+import signUpTestUser from "../dev/signUpTestUser";
 
-import db from "./src/config/db.js";
+import db from "./config/db.js";
 const http = express();
 const server = new Server(http);
 server.middlewares(middlewares);

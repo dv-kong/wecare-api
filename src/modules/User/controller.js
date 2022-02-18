@@ -28,7 +28,8 @@ class UserController {
     try {
 
       const user = req.body;
-      await this.userService.findUser(user.email);
+      console.log(`USER `, user);
+      await this.userService.findByEmail(user.email);
       await this.userService.create(user);
 
       return res.status(200).json({

@@ -11,12 +11,13 @@ class UserService {
     }
 
   async create(user) {
-    const newUser = await this.UserRepository.create();
+    const newUser = await this.UserRepository.create(user);
     return new UserDTO(newUser);
   }
 
   async findByEmail(email) {
-    const user = await this.UserRepository.find(email);
+    
+    const user = await this.UserRepository.findByEmail(email);
 
     if (user) {
       throw new ApiError(403, "Email already exists!");

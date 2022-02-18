@@ -2,11 +2,11 @@
   "name": "wecare_db",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "./src/app.js",
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watchAll",
-    "dev": "nodemon --exec babel-node app.js"
+    "dev": "nodemon --exec babel-node ./src/app.js"
   },
   "author": "",
   "license": "ISC",

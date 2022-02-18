@@ -12,7 +12,7 @@ class UserRouter {
   }
   
   initializeRoutes(controller) {
-    console.log(`CLASS ROUTER > controller`, controller);
+    // console.log(`CLASS ROUTER > controller`, controller);
   
     // this.router.route("/").get(isAuth, controller.getUsers); //TODO
     this.router.route("/register").post(controller.register);

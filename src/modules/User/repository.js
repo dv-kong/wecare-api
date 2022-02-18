@@ -21,15 +21,16 @@ class UserRepository {
 
   async create(user) {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
+
 
     let newUser = await this.userDAO.create({
       ...user,
-      ...{password: hashedPassword,
+      ...{password: hashedPassword, // replace user's stored password with hashedPassword
       role: "user"} 
     });
 
-    console.log(`LOG CREATE USER `, newUser);
+    // console.log(`LOG CREATE USER `, newUser);
 
     return newUser;
   }

@@ -17,7 +17,6 @@ const signUpTestUser = async (user) => {
     phone_number,
     social_security_number,
   } = user;
-  console.log("email>>>", email);
   try {
     const user = await User.findOne({
       attributes: ["email"],
