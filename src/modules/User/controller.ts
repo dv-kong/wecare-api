@@ -1,10 +1,15 @@
 import JwtService from "../../libs/jwt";
+import { Response, Request, NextFunction } from "express";
+import IUserService from "./interfaces/IUserService";
+
 
 class UserController {
   // To function correctly, this controller needs the supplied models
   // dependency = what a class need to function
+  private userService;
+  private jwtService;
 
-  constructor(userService, jwtService) {
+  constructor(userService: IUserService, jwtService: JwtService) {
     this.userService = userService;
     this.jwtService = jwtService; //TODO Need to be refactored
   }
@@ -14,7 +19,7 @@ class UserController {
    * @param
    */
 
-  getUserById = async (req, res, next) => {
+  getUserById = async (req: Request , res: Response, next: NextFunction) => {
 
     try {
       const user = await this.userService.findById(req, res);
@@ -24,7 +29,7 @@ class UserController {
     }
   };
 
-  register = async (req, res, next) => {
+  register = async (req: Request , res: Response, next: NextFunction) => {
     try {
 
       const user = req.body;
@@ -41,45 +46,18 @@ class UserController {
     }
   };
 
-  login = async (req, res, next) => {
+  login = async (req: Request , res: Response, next: NextFunction) => {
     const credentials = req.body;
 
     try {
       
       const user = await this.userService.login(credentials);
-      
-      // const access_token = this.jwtService.sign(
-      //   { id: user.id, role: user.role },
-      //   env.jwt_secret,
-      //   {
-      //     expiresIn: "5m", // TODO: change to 15m
-      //   }
-      // );
-
-      // const refresh_token = this.jwtService.sign(
-      //   { id: user.id, role: user.role },
-      //   env.jwt_secret,
-      //   {
-      //     expiresIn: "7d",
-      //   }
-      // );
-
-      // const jwtTokens = {
-      //    access_token,
-      //    refresh_token
-      // }
-
       const token = await this.jwtService.generateToken({ id: user.id, role: user.role });
-      res.cookie('refresh_token', token, {expiresIn: '1d', httpOnly: true});
 
-      // await this.userService.update(jwtTokens, email);
 
-      // Store refresh token and his properties in cookie with "refresh_token" key
-      // The HttpOnly flag is an additional flag included in a Set-Cookie HTTP response header. It is used to prevent a Cross-Site Scripting exploit from gaining access to the session cookie and hijacking the victim's session.
-      // res.cookie("refresh_token", refresh_token, {
-      //   expiresIn: "7d",
-      //   httpOnly: true,
-      // });
+      const expirationDate = new Date(Date.now() + (30 * 86400 * 1000)) // TODO / 30 days => 7days?
+      res.cookie('refresh_token', token, {expires: expirationDate, httpOnly: true});
+
 
       res.status(200).json({
         access_token: user.access_token,
@@ -101,7 +79,7 @@ class UserController {
   };
 
 
-  updateUser = async (req, res, next) => {
+  updateUser = async (req: Request , res: Response, next: NextFunction) => {
     console.log("TODO: Update user");
   };
 
@@ -118,7 +96,7 @@ class UserController {
   //     }
   //   };
 
-  deleteUser = async (req, res, next) => {
+  deleteUser = async (req: Request , res: Response, next: NextFunction) => {
     const { id } = req.body;
     
     try {

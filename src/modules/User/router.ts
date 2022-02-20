@@ -5,10 +5,11 @@ import UserController from "./controller";
 
 class UserRouter {
 
-  constructor(controller) {
+  private router: Router;
+
+  constructor(controller: UserController) {
     this.router = Router();
     this.initializeRoutes(controller);
-    return this.router;
   }
   
   initializeRoutes(controller) {

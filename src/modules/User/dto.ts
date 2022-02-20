@@ -8,6 +8,20 @@
 // Helps hide the data
 
 class UserDTO {
+
+
+    //TODO (A REFACTO) Rendre private les propriétés et déclarer des getters et setters
+    public email: string;
+    public password: string;
+    public first_name: string;
+    public last_name: string;
+    public postal_code: string;
+    public address: string;
+    public gender: string;
+    public city: string;
+    public phone_number: string;
+    public social_security_number: string;
+
     constructor({
         email,
         password,
@@ -18,8 +32,8 @@ class UserDTO {
         gender,
         city,
         phone_number,
-        social_security_number,
-    }) {
+        social_security_number
+    }: UserDTO) {
         this.email = email;
         this.password = password;
         this.first_name = first_name;

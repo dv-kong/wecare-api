@@ -1,21 +1,25 @@
 import UserDTO from './dto';
 import bcrypt from "bcrypt";
-import { ApiError } from '../../helpers/error';
+import ApiError from '../../helpers/error';
+import { Request, Response } from 'express';
+import IUserService from './interfaces/IUserService';
+import IUserRepository from './interfaces/IUserRepository';
 
 // get data sent by repository
-
-class UserService {
+class UserService implements IUserService {
   
-    constructor(userRepository) {
+    private UserRepository: IUserRepository;
+
+    constructor(userRepository: IUserRepository) {
         this.UserRepository = userRepository;
     }
 
-  async create(user) {
+  async create(user: UserDTO) {
     const newUser = await this.UserRepository.create(user);
     return new UserDTO(newUser);
   }
 
-  async findByEmail(email) {
+  async findByEmail(email: string) {
     
     const user = await this.UserRepository.findByEmail(email);
 
@@ -26,7 +30,7 @@ class UserService {
     return user;
   }
 
-  async login(credentials) {
+  async login(credentials: {email: string, password: string}) {
     
     const {email, password} = credentials;
 
@@ -43,13 +47,11 @@ class UserService {
     return user;
   }
 
-  async update(jwtTokens, email) {
-      await this.UserRepository.update(jwtTokens,email);
+  // async update(jwtTokens: {access_token: string, refresh_token: string}, email: string) {
+  //     await this.UserRepository.update(jwtTokens, email);
+  // }
 
-  }
-
-
-  async delete(id) {
+  async delete(id:string) {
     //throw errow if not successful
     if (!id) {
       throw new ApiError(400, "ID not found.");
@@ -57,14 +59,15 @@ class UserService {
     return await this.UserRepository.delete(id);
   }
 
-  async findById(req, res) {
-    let userId;
+  async findById(req: Request, res: Response) {
+    let userId: string;
 
-    if (res.locals.user) {
-      userId = res.locals.user.dataValues.id;
+    if (!res.locals.user.dataValues.id) {
+      throw new ApiError(500, "User ID not provided.");
     }
+    userId = res.locals.user.dataValues.id;
 
-    const user = await this.UserRepository.findOne(userId);
+    const user: Promise<any> = await this.UserRepository.findById(userId);
 
     if (!user) {
       throw new ApiError(404, "User not found.");

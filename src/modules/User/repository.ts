@@ -1,16 +1,17 @@
 import bcrypt from "bcrypt";
-
+import IUserRepository from "./interfaces/IUserRepository";
 // repository: handle database operations
 // send data back to service
 
-class UserRepository {
+class UserRepository implements IUserRepository {
 
-    constructor(userDao) {
-        this.userDAO = userDao;
-    }
+  private userDAO;
 
+  constructor(userDAO) {
+      this.userDAO = userDAO;
+  }
 
-  async findByEmail(email) {
+  async findByEmail(email:string) {
     const user = await this.userDAO.findOne({
       attributes: ["email"],
       where: { email: email },
@@ -30,7 +31,6 @@ class UserRepository {
       role: "user"} 
     });
 
-    // console.log(`LOG CREATE USER `, newUser);
 
     return newUser;
   }

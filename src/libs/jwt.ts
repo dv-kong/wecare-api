@@ -1,11 +1,15 @@
+import { Secret, Jwt } from "jsonwebtoken";
+
 class JwtService {
-    
-    constructor(jwt, secret) {
+    private jwt: Jwt;
+    private secret: Secret;
+
+    constructor(jwt: Jwt, secret: Secret) {
         this.jwt = jwt;
         this.secret = secret;
     }
 
-    async decodeToken(token) {
+    async decodeToken(token:string) {
         return await this.jwt.verify(token, this.secret);
     }
 

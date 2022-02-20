@@ -1,5 +1,5 @@
 import { Model, DataTypes, UUID, UUIDV4 } from "sequelize";
-import db from "../../config/db.js";
+import db from "../../config/db.ts";
 import Joi from "joi";
 import AppointmentModel from '../Appointment/model';
 

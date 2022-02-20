@@ -1,7 +1,7 @@
 // import User from './model';
 // import Appointment from '../Appointment/model';
 
-import User from '../../modules/User/dao';
+import User from './dao.js';
 import UserRepository from './repository';
 import UserService from './service';
 import UserController from './controller';

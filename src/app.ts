@@ -1,12 +1,12 @@
 import express from "express";
-import env from "./config/env.js";
-import Server from "./config/server.js";
-import middlewares from "./config/middlewares.js";
+import env from "./config/env";
+import Server from "./config/server";
+import middlewares from "./config/middlewares";
 import routes from "./modules";
 
 // import UserController from "./src/modules/User/controller"; // To create a user on database reset
 // import User from "./src/modules/User/model";
-import signUpTestUser from "../dev/signUpTestUser";
+// import signUpTestUser from "../dev/signUpTestUser.js";
 
 import db from "./config/db.js";
 const http = express();
@@ -34,21 +34,21 @@ server.routes(routes);
     //   UserController.create({
 // console.log(
 
-    signUpTestUser({
-      email: "doejoe@protonmail.com",
-      password: "!1Password",
-      first_name: "Joe",
-      last_name: "Doe",
-      role: "user",
-      postal_code: "75001",
-      address: "1 rue des Fleurs",
-      gender: "male",
-      city: "CucumberLand",
-      phone_number: "0601020304",
-      social_security_number: "1234987609",
-    }).then(response =>
-              console.log(`Created user`, response)
-        )
+    // signUpTestUser({
+    //   email: "doejoe@protonmail.com",
+    //   password: "!1Password",
+    //   first_name: "Joe",
+    //   last_name: "Doe",
+    //   role: "user",
+    //   postal_code: "75001",
+    //   address: "1 rue des Fleurs",
+    //   gender: "male",
+    //   city: "CucumberLand",
+    //   phone_number: "0601020304",
+    //   social_security_number: "1234987609",
+    // }).then(response =>
+    //           console.log(`Created user`, response)
+    //     )
 // );
 
 
