@@ -1,10 +1,13 @@
-import { Secret, Jwt } from "jsonwebtoken";
+import {Jwt} from "jsonwebtoken";
 
+//TODO: Ask instructor
+// -> Extend the Jwt class to include a method to verify a token. ?
 class JwtService {
-    private jwt: Jwt;
-    private secret: Secret;
 
-    constructor(jwt: Jwt, secret: Secret) {
+    private jwt: any;
+    private secret: string;
+
+    constructor(jwt: any, secret: string) {
         this.jwt = jwt;
         this.secret = secret;
     }
