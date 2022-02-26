@@ -1,6 +1,6 @@
 import express from "express";
 import env from "./config/env";
-import Server from "./config/server";
+import App from "./config/server";
 import middlewares from "./config/middlewares";
 import routes from "./modules";
 
@@ -8,9 +8,10 @@ import routes from "./modules";
 // import User from "./src/modules/User/model";
 // import signUpTestUser from "../dev/signUpTestUser.js";
 
-import db from "./config/db";
+import db from "./config/database";
+
 const http = express();
-const server = new Server(http);
+const server = new App(http);
 server.middlewares(middlewares);
 server.routes(routes);
 

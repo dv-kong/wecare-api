@@ -1,15 +1,18 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-const env = {
-  db_name: process.env.DB_NAME!,
-  db_port: parseInt(process.env.DB_PORT!) || 3050,
-  db_user: process.env.DB_USER!,
-  db_password: process.env.DB_PASSWORD!,
-  db_dialect: process.env.DB_DRIVER!,
-  db_host: process.env.DB_HOST!,
-  port: process.env.SERVER_PORT!,
-  jwt_secret: process.env.JWT_SECRET!
+const config = {
+  app_port: process.env.APP_PORT,
+  db_port: Number(process.env.TYPEORM_PORT),
+  db_name: process.env.TYPEORM_DATABASE,
+  db_user: process.env.TYPEORM_USERNAME,
+  db_host: process.env.TYPEORM_HOST,
+  db_type: process.env.TYPEORM_CONNECTION,
+  db_password: process.env.TYPEORM_PASSWORD,
+  db_entities: process.env.TYPEORM_ENTITIES,
+  db_migration: process.env.TYPEORM_MIGRATIONS,
+  db_migrationDir: process.env.TYPEORM_MIGRATIONS_DIR,
+  jwt_secret: process.env.JWT_SECRET
 };
 
-export default env;
+export default config;

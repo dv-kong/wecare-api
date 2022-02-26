@@ -11,7 +11,7 @@ class UserRouter {
     this.router = Router();
     this.initializeRoutes(controller);
   }
-  
+
   initializeRoutes(controller) {
     // console.log(`CLASS ROUTER > controller`, controller);
   

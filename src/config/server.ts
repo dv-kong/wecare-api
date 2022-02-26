@@ -1,8 +1,13 @@
-class Server {
-    #http; // private
+import { Server, Post } from '@overnightjs/core'
+import { Application } from 'express';
+
+class App {
+
+    private http: Application; // private
+
     constructor(http) {
-        this.#http = http;
-}
+        this.http = http;
+    }
 
 /** hover over the function to see the documentation
  * @func middlewares for each middleware, server will use the good one
@@ -13,8 +18,9 @@ middlewares(middlewares) {
     
     // console.log(`serverjs -> middlewares`, middlewares);
     for (const key in middlewares) {
-        
-       this.#http.use(middlewares[key]); 
+
+       this.http.use(middlewares[key]); 
+
     }
 }
 
@@ -23,11 +29,13 @@ middlewares(middlewares) {
  * @param routes
  * @TODO param (routes)
  */
+
 routes(routes) {
-    // console.log(`serverjs -> routes`, routes);
+
     for(const path in routes) {
-        this.#http.use(path, routes[path]);
+        this.http.use(path, routes[path]);
     }
+    
 }
 
 /** 
@@ -35,17 +43,17 @@ routes(routes) {
  * @param errorHandler custom class inheriting from Error
  */
 errorHandler(errorHandler) {
-    this.#http.use(errorHandler);
+    this.http.use(errorHandler);
 }
 /**
  * @func start Start the server with the port in argument
  * @param port Value located in the .env file
  */
-start(port){
-    this.#http.listen(port, () => {
+start(port: string){
+    this.http.listen(port, () => {
         console.log(`Server started on port: http://localhost:${port}`);
     });
 }
 }
 
-export default Server;
+export default App;

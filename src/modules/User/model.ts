@@ -1,5 +1,5 @@
 import { Model, DataTypes, UUID, UUIDV4 } from "sequelize";
-import db from "../../config/db.js";
+import db from "../../config/database.js";
 import Joi from "joi";
 
 class User extends Model {
