@@ -1,77 +1,112 @@
-import jwt from "jsonwebtoken";
-import decode from "jsonwebtoken/decode";
-import config from "../config/env";
-import User from "../modules/User/model";
+import { Request, Response, NextFunction } from 'express';
+import JwtService from "../libs/jwt";
 
-const isAuth = async (req, res, next) => {
-  // get token, token ok ? 200
-  // token invalid ? 40*
-  // token expired ? -> use refresh token
-  // refresh token invalid ? 40*
-  // refresh token expired ? -> send "please log in"
-  // refresh token valid ? -> gen new access token
-  try {
-    let access_token = req.headers.authorization.split(" ")[1];
-    console.log(`!! access TOKEN : `, access_token);
+class AuthMiddleware {
 
-    // id, role, iat, exp
-    const refresh_token = req.cookies["refresh_token"]; // TODO
-    console.log(`!! refresh TOKEN : `, refresh_token);
-    // id, role, iat, exp
-    // if (!refresh_token)
-    // return res.status(401).json("Session expired, please log in.");
+  private jwt;
+  constructor(jwtService: JwtService) {
+    this.jwt = jwtService;
+  }
 
-    const accessTokenValid = await jwt.verify(access_token, config.jwt_secret);
-    // const refreshTokenValid = await jwt.verify(refresh_token, config.jwt_secret);
-    console.log(`accessTokenValid`, accessTokenValid);
+  isAuth = async (req: Request | any, res: Response, next: NextFunction) => {
+    try {
+      const token = req.cookies['auth-cookie'];
 
-    let user = await User.findOne({ where: { access_token } }); // Get only once
-    // let user = await User.findOne({ where: { access_token, refresh_token } }); // Get only once
+      if (!token) {
+        return res.status(401).json('Access denied. Your session expired');
+      }
 
-    if (!user) return res.status(401).json("Session expired.");
+      // Verify Token
+      const decoded = await this.jwt.decodeToken(token);
 
-    // await jwt.verify(access_token, config.jwt_secret); //TODO
+      // if the user has permissions
+      req.currentUserId = decoded.id;
+      next();
 
-    req.user = user;
-    // TODO? Refactor?
-    if (accessTokenValid) {
-      res.locals.user = req.user;
-      console.log(`res.locals`, res.locals);
+    } catch (e) {
+      return res.status(401).json('Authentication failed : \n' + e);
     }
-
-    next();
-  } catch (error) {
-    return res.status(401).json(error.message);
   }
-};
-const refreshAccessToken = async (req, res, next) => {
-  try {
-    const refresh_token = req.cookies["refresh_token"]; // TODO
+}
 
-    // let refresh_token = req.body.refresh_token;
+export default AuthMiddleware;
 
-    if (!refresh_token) return res.status(404).json("Invalid refresh token");
-  } catch (error) {
-    return res.status(401).json(error.message);
-  }
-};
-// generate access token from valid refresh token
-const generateAccessToken = async (req, res, next) => {};
 
-const isAdmin = async (req, res, next) => {
-  try {
-    let access_token = req.headers.authorization.split(" ")[1];
 
-    let decoded_token = decode(access_token);
+// import jwt from "jsonwebtoken";
+// import decode from "jsonwebtoken/decode";
+// import config from "../config/env";
+// import User from "../modules/User/model";
 
-    if (!access_token) return res.status(401).json("Invalid access token");
-    if (decoded_token.role !== "admin")
-      return res.status(401).json("Invalid rights");
+// const isAuth = async (req, res, next) => {
+//   // get token, token ok ? 200
+//   // token invalid ? 40*
+//   // token expired ? -> use refresh token
+//   // refresh token invalid ? 40*
+//   // refresh token expired ? -> send "please log in"
+//   // refresh token valid ? -> gen new access token
+//   try {
+//     let access_token = req.headers.authorization.split(" ")[1];
+//     console.log(`!! access TOKEN : `, access_token);
 
-    next();
-  } catch (error) {
-    return res.status(401).json(error.message);
-  }
-};
+//     // id, role, iat, exp
+//     const refresh_token = req.cookies["refresh_token"]; // TODO
+//     console.log(`!! refresh TOKEN : `, refresh_token);
+//     // id, role, iat, exp
+//     // if (!refresh_token)
+//     // return res.status(401).json("Session expired, please log in.");
 
-export { isAuth, refreshAccessToken, isAdmin };
+//     const accessTokenValid = await jwt.verify(access_token, config.jwt_secret);
+//     // const refreshTokenValid = await jwt.verify(refresh_token, config.jwt_secret);
+//     console.log(`accessTokenValid`, accessTokenValid);
+
+//     let user = await User.findOne({ where: { access_token } }); // Get only once
+//     // let user = await User.findOne({ where: { access_token, refresh_token } }); // Get only once
+
+//     if (!user) return res.status(401).json("Session expired.");
+
+//     // await jwt.verify(access_token, config.jwt_secret); //TODO
+
+//     req.user = user;
+//     // TODO? Refactor?
+//     if (accessTokenValid) {
+//       res.locals.user = req.user;
+//       console.log(`res.locals`, res.locals);
+//     }
+
+//     next();
+//   } catch (error) {
+//     return res.status(401).json(error.message);
+//   }
+// };
+// const refreshAccessToken = async (req, res, next) => {
+//   try {
+//     const refresh_token = req.cookies["refresh_token"]; // TODO
+
+//     // let refresh_token = req.body.refresh_token;
+
+//     if (!refresh_token) return res.status(404).json("Invalid refresh token");
+//   } catch (error) {
+//     return res.status(401).json(error.message);
+//   }
+// };
+// // generate access token from valid refresh token
+// const generateAccessToken = async (req, res, next) => {};
+
+// const isAdmin = async (req, res, next) => {
+//   try {
+//     let access_token = req.headers.authorization.split(" ")[1];
+
+//     let decoded_token = decode(access_token);
+
+//     if (!access_token) return res.status(401).json("Invalid access token");
+//     if (decoded_token.role !== "admin")
+//       return res.status(401).json("Invalid rights");
+
+//     next();
+//   } catch (error) {
+//     return res.status(401).json(error.message);
+//   }
+// };
+
+// export { isAuth, refreshAccessToken, isAdmin };
