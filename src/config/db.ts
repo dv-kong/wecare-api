@@ -1,18 +1,18 @@
 import {Sequelize} from "sequelize";
-import config from "./env";
+import env from "./env";
 
 const sequelize = new Sequelize(
-    config.db_name,
-    config.db_user,
-    config.db_password, {
+    env.db_name,
+    env.db_user,
+    env.db_password, {
         dialect: 'mysql',
-        port: config.db_port,
-        host: config.db_host
+        port: env.db_port,
+        host: env.db_host
     }
 )
 
 const associateAll = async (models) => {
-    Object.values(models).map((model) => model.associate(models))
+    Object.values(models).map((model: any) => model.associate(models))
 
 }
 

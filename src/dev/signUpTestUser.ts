@@ -1,7 +1,8 @@
-import User from "../src/modules/User/model";
+import User from "../modules/User/model";
 
 
 import bcrypt from "bcrypt";
+import ApiError from "../helpers/error";
 
 const signUpTestUser = async (user) => {
 

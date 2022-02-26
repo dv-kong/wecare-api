@@ -2,11 +2,12 @@
   "name": "wecare_db",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/app.js",
+  "main": "./src/app.ts",
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watchAll",
-    "dev": "nodemon --exec babel-node ./src/app.js"
+    "dev": "nodemon -L",
+    "dev:babel": "nodemon --exec babel-node ./src/app.ts"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +32,8 @@
   "devDependencies": {
     "@babel/core": "^7.16.12",
     "@babel/node": "^7.16.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-transform-async-to-generator": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",

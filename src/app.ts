@@ -8,7 +8,7 @@ import routes from "./modules";
 // import User from "./src/modules/User/model";
 // import signUpTestUser from "../dev/signUpTestUser.js";
 
-import db from "./config/db.js";
+import db from "./config/db";
 const http = express();
 const server = new Server(http);
 server.middlewares(middlewares);
