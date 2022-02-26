@@ -1,5 +1,5 @@
-import JwtService from "../../libs/jwt";
 import { Response, Request, NextFunction } from "express";
+import JwtService from "../../libs/jwt";
 import IUserService from "./interfaces/IUserService";
 
 
@@ -19,7 +19,7 @@ class UserController {
    * @param
    */
 
-  getUserById = async (req: Request , res: Response, next: NextFunction) => {
+  getUserById = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
       const user = await this.userService.findById(req, res);
@@ -29,7 +29,7 @@ class UserController {
     }
   };
 
-  register = async (req: Request , res: Response, next: NextFunction) => {
+  register = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
       const user = req.body;
@@ -46,17 +46,17 @@ class UserController {
     }
   };
 
-  login = async (req: Request , res: Response, next: NextFunction) => {
+  login = async (req: Request, res: Response, next: NextFunction) => {
     const credentials = req.body;
 
     try {
-      
+
       const user = await this.userService.login(credentials);
       const token = await this.jwtService.generateToken({ id: user.id, role: user.role });
 
 
       const expirationDate = new Date(Date.now() + (30 * 86400 * 1000)) // TODO / 30 days => 7days?
-      res.cookie('refresh_token', token, {expires: expirationDate, httpOnly: true});
+      res.cookie('refresh_token', token, { expires: expirationDate, httpOnly: true });
 
 
       res.status(200).json({
@@ -79,7 +79,7 @@ class UserController {
   };
 
 
-  updateUser = async (req: Request , res: Response, next: NextFunction) => {
+  updateUser = async (req: Request, res: Response, next: NextFunction) => {
     console.log("TODO: Update user");
   };
 
@@ -96,11 +96,11 @@ class UserController {
   //     }
   //   };
 
-  deleteUser = async (req: Request , res: Response, next: NextFunction) => {
+  deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.body;
-    
+
     try {
-     await this.userService.deleteUser(id);
+      await this.userService.deleteUser(id);
     } catch (error) {
       next(error);
     }

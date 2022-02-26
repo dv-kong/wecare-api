@@ -1,10 +1,20 @@
-import {userRouter} from './User'
+import { userController } from './User';
 
-const routes = {
-  // base route ex: http://localhost:3000/users/...
-  "/users": userRouter,
-  // "/doctors": UserRouter,
+const routes = [
+  userController,
+]
 
-  //   "*": 404Router,
-};
 export default routes;
+
+// Legacy code
+
+// import { userRouter } from './User'
+
+// const routes = {
+//   "/users": userRouter,
+//   // "/doctors": UserRouter,
+//   //   "*": 404Router,
+// };
+// export default routes;
+
+
