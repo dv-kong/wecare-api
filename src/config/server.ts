@@ -2,7 +2,6 @@ import { Response } from 'express';
 import { Request } from 'express';
 import { handleError } from '../helpers/error';
 import { Server } from '@overnightjs/core'
-
 class App extends Server {
 
     constructor(routes: Array<Object>, middlewares: Object) {
@@ -30,7 +29,7 @@ class App extends Server {
     }
 
     listen(port: string) {
-        this.app.listen(port, async () => console.log(`application started on port : ${port}`));
+        this.app.listen(port, async () => console.log(`Server running on port ${port}`));
     }
 }
 
