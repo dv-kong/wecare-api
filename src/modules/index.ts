@@ -6,7 +6,6 @@ const routes = [
 
 export default routes;
 
-// Legacy code
 
 // import { userRouter } from './User'
 

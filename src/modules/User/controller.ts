@@ -52,7 +52,6 @@ class UserController {
 
 export default UserController;
 
-// Legacy code
 
 // import { Response, Request, NextFunction } from "express";
 // import JwtService from "../../libs/jwt";
