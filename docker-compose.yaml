@@ -17,6 +17,8 @@ services:
       - ./db/backup/files/:/data_backup/data
     ports:
       - ${TYPEORM_PORT}:3306
+    security_opt:
+      - seccomp:unconfined
 
   app:
     build:
