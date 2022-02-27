@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS users (
+    id bigserial PRIMARY KEY,
+    email VARCHAR (128) NOT NULL,
+    password VARCHAR (200) NOT NULL,
+    first_name VARCHAR (128) NOT NULL,
+    last_name VARCHAR (128) NOT NULL,
+    postal_code VARCHAR (128) NOT NULL,
+    address VARCHAR (128) NOT NULL,
+    gender VARCHAR (128)  NOT NULL,
+    city VARCHAR (128)  NOT NULL,
+    phone_number VARCHAR (128)  NOT NULL,
+    social_security_number VARCHAR (128)  NOT NULL,
+    banned VARCHAR (128)  NOT NULL,
+    access_token VARCHAR (128)  NOT NULL,
+    refresh_token VARCHAR (128)  NOT NULL,
+);
