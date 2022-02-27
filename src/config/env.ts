@@ -10,6 +10,7 @@ const config = {
   db_type: process.env.TYPEORM_CONNECTION,
   db_password: process.env.TYPEORM_PASSWORD,
   db_entities: process.env.TYPEORM_ENTITIES,
+  db_synchronize: Boolean(process.env.TYPEORM_SYNCHRONIZE),
   db_migration: process.env.TYPEORM_MIGRATIONS,
   db_migrationDir: process.env.TYPEORM_MIGRATIONS_DIR,
   jwt_secret: process.env.JWT_SECRET!

@@ -15,7 +15,7 @@ import AuthMiddleware from './auth';
 const auth = new AuthMiddleware(jwtService);
 const logger = new Logger(winston);
 const csrf = csurf({ cookie: true });
-const corsOptions = { origin: "https://brianboudrioux.fr", credentials: true };
+const corsOptions = { origin: "https://localhost:3000", credentials: true };
 
 // export all custom middlewares
 export { auth, logger, csrf };

@@ -13,7 +13,7 @@ class AuthMiddleware {
       const token = req.cookies['auth-cookie'];
 
       if (!token) {
-        return res.status(401).json('Access denied. Your session expired');
+        return res.status(401).json('Session expired');
       }
 
       // Verify Token
@@ -24,7 +24,7 @@ class AuthMiddleware {
       next();
 
     } catch (e) {
-      return res.status(401).json('Authentication failed : \n' + e);
+      return res.status(401).json('Authentication failed: \n' + e);
     }
   }
 }

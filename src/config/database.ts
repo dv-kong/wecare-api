@@ -7,7 +7,8 @@ const options: ConnectionOptions = {
     "port": config.db_port,
     "username": config.db_user,
     "password": config.db_password,
-    "database":config.db_name,
+    "database": config.db_name,
+    "synchronize": config.db_synchronize, //TODO: disable in production
     "logging": true,
     "entities": [__dirname + "/../modules/**/entity.{js,ts}"],
 }
@@ -15,5 +16,6 @@ const options: ConnectionOptions = {
 const connectionManager = getConnectionManager();
 
 const db = connectionManager.create(options);
+
 
 export default db;

@@ -1,54 +1,57 @@
-import UserDTO from './dto';
-import { ApiError } from '../../helpers/error';
-import { IUserRepository } from './repository';
-import { User } from './entity';
+import UserDTO from "./dto";
+import { ApiError } from "../../helpers/error";
+import { IUserRepository } from "./repository";
+import { User } from "./entity";
 
 export interface IUserService {
-    getAll() : Promise<UserDTO[]>
-    register(userData: any) : Promise<UserDTO>
-    login(userData: any) : Promise<UserDTO>
+  getAll(): Promise<UserDTO[]>;
+  register(userData: any): Promise<UserDTO>;
+  login(userData: any): Promise<UserDTO>;
 }
 
 export default class UserService implements IUserService {
+  private userRepo;
+  constructor(userRepository: IUserRepository) {
+    this.userRepo = userRepository;
+  }
 
-    private userRepo;
-    private mailerService;
-    constructor(userRepository: IUserRepository) {
-        this.userRepo = userRepository;
+  async getAll() {
+    const users = await this.userRepo.findAll();
+    return users.map((user: any) => new UserDTO(user));
+  }
+
+  async register(userData: User) {
+    if (!userData.email || !userData.password) {
+      throw new ApiError(400, "Missing required email and password fields");
     }
 
-    async getAll() {
-        const users = await this.userRepo.findAll();
-        return users.map((user: any) => new UserDTO(user));
-    }
+    userData.email_validated = false;
+    userData.banned = false;
+    userData.access_token = "";
+    userData.refresh_token = "";
 
-    async register(userData: User) {
-        
-        if (!userData.email || !userData.password)
-            throw new ApiError(400, 'Missing required email and password fields');
-        
-        const newUser = await this.userRepo.addNew(userData);
-        await this.mailerService.sendMail(userData);
-        return new UserDTO(newUser);
-    }
+    const newUser = await this.userRepo.addNew(userData);
+    return new UserDTO(newUser);
+  }
 
-    async login(userData : User) {
+  async login(userData: User) {
+    if (!userData.email || !userData.password)
+      throw new ApiError(400, "Missing required email and password fields");
 
-        if (!userData.email || !userData.password)
-            throw new ApiError(400, 'Missing required email and password fields');
-        
-        const user = await this.userRepo.findByEmail(userData);
-        console.log(user);
-        
-        if (!user)
-            throw new ApiError(400, 'User with the specified email does not exists');
+    const user = await this.userRepo.findByEmail(userData);
+    console.log(user);
 
-        const passwordMatch = await this.userRepo.compareHash(userData.password, user.password);
-        if (!passwordMatch)
-            throw new ApiError(400, 'User password does not match');
+    if (!user)
+      throw new ApiError(400, "User with the specified email does not exists");
 
-        return new UserDTO(user);
-    }
+    const passwordMatch = await this.userRepo.compareHash(
+      userData.password,
+      user.password
+    );
+    if (!passwordMatch) throw new ApiError(400, "User password does not match");
+
+    return new UserDTO(user);
+  }
 }
 
 // import UserDTO from './dto';
@@ -60,7 +63,7 @@ export default class UserService implements IUserService {
 
 // // get data sent by repository
 // class UserService implements IUserService {
-  
+
 //     private UserRepository: IUserRepository;
 
 //     constructor(userRepository: IUserRepository) {
@@ -73,7 +76,7 @@ export default class UserService implements IUserService {
 //   }
 
 //   async findByEmail(email: string) {
-    
+
 //     const user = await this.UserRepository.findByEmail(email);
 
 //     if (user) {
@@ -84,7 +87,7 @@ export default class UserService implements IUserService {
 //   }
 
 //   async login(credentials: {email: string, password: string}) {
-    
+
 //     const {email, password} = credentials;
 
 //     const requestedUser = await this.UserRepository.login(email);
