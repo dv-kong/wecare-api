@@ -19,7 +19,7 @@ class AuthMiddleware {
       // Verify Token
       const decoded = await this.jwt.decodeToken(token);
 
-      // if the user has permissions
+      // if the user has permissionsm
       req.currentUserId = decoded.id;
       next();
 
