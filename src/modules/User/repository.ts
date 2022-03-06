@@ -1,36 +1,47 @@
-import {EntityRepository, EntityManager} from "typeorm";
-import bcrypt from 'bcrypt';
+import { EntityRepository, EntityManager, DeleteResult } from "typeorm";
+import bcrypt from "bcrypt";
 import { User } from "./entity";
+import UserDTO from "./dto";
 
 export interface IUserRepository {
-    findAll() : Promise<User[]>
-    addNew(userEntity: any) : Promise<any>
-    findByEmail(userEntity: any) : Promise<User | undefined>
-    compareHash(password: string, hash: string) : Promise<boolean> 
+  findAll(): Promise<User[]>;
+  addNew(userEntity: any): Promise<UserDTO>;
+  findByEmail(userEntity: any): Promise<User | undefined>;
+  findById(id: string): Promise<User | undefined>;
+  deleteById(id: string): Promise<DeleteResult>;
+  compareHash(password: string, hash: string): Promise<boolean>;
 }
+
 @EntityRepository()
 class UserRepository implements IUserRepository {
+  constructor(private manager: EntityManager) {}
 
-    constructor(private manager: EntityManager) {
-    }
+  async findAll() {
+    return await this.manager.find(User);
+  }
 
-    async findAll() {
-        return await this.manager.find(User);
-    }
+  async addNew(userEntity) {
+    const salt = bcrypt.genSaltSync(10);
+    userEntity.password = bcrypt.hashSync(userEntity.password, salt);
+    const newUser = await this.manager.save(User, userEntity);
+    return new UserDTO(newUser);
+  }
 
-    async addNew(userEntity: any) {
-        const salt = bcrypt.genSaltSync(10);
-        userEntity.password = bcrypt.hashSync(userEntity.password, salt);
-        return await this.manager.save(User, userEntity);
-    }
+  async findById(id: string) {
+    return await this.manager.findOne(User, id);
+  }
 
-    async findByEmail(userEntity: any) {
-        console.log(userEntity);
-        
-        return await this.manager.findOne(User, {email: userEntity.email});
-    }
+  async findByEmail(userEmail: string) {
+    return await this.manager.findOne(User, { email: userEmail });
+  }
 
-    compareHash = async (password: string, hash: string) => await bcrypt.compareSync(password, hash);
+  async deleteById(id: string): Promise<DeleteResult> {
+    return await this.manager.delete(User, id);
+    // return await this.manager.remove(User, id);
+  }
+
+  compareHash = async (password: string, hash: string) =>
+    await bcrypt.compareSync(password, hash);
 }
 
 export default UserRepository;
@@ -61,13 +72,11 @@ export default UserRepository;
 //     const salt = await bcrypt.genSalt(10);
 //     const hashedPassword = await bcrypt.hash(user.password, salt);
 
-
 //     let newUser = await this.userDAO.create({
 //       ...user,
 //       ...{password: hashedPassword, // replace user's stored password with hashedPassword
-//       role: "user"} 
+//       role: "user"}
 //     });
-
 
 //     return newUser;
 //   }
@@ -98,7 +107,7 @@ export default UserRepository;
 
 //   async update(jwtTokens, email) {
 //     const {access_token, refresh_token} = jwtTokens;
-    
+
 //     const user = this.userDAO.findOne({
 //         attributes: ["email"],
 //         where: { email: email },
@@ -111,7 +120,6 @@ export default UserRepository;
 //     const userLog = await this.userDAO.save();
 //     console.log(`UPDATED USER`, userLog);
 //   }
-
 
 //   async delete(id) {
 //     const deletedUser = await this.userDAO.destroy({

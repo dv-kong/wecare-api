@@ -10,13 +10,12 @@ services:
     environment:
       MYSQL_DATABASE: $TYPEORM_DATABASE
       MYSQL_ROOT_PASSWORD: $TYPEORM_PASSWORD
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
     volumes:
       - db-config:/etc/mysql
       - db-data:/var/lib/mysql
       - ./db/backup/files/:/data_backup/data
     ports:
-      - ${TYPEORM_PORT}:3306
+      - 3306:3306
     security_opt:
       - seccomp:unconfined
 
