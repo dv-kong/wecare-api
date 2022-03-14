@@ -6,7 +6,7 @@ import { Specialty } from "./entity";
 export interface ISpecialtyService {
     // getAll(): Promise<SpecialtyDTO[]>;
     create(specialtyData: any): Promise<{ specialty: SpecialtyDTO; message: string }>;
-    // update(userData: any): Promise<SpecialtyDTO>;
+    update(specialtyData: any): Promise<SpecialtyDTO>;
     // delete(id: string): Promise<void>;
 }
 
