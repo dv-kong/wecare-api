@@ -5,8 +5,9 @@ import { User } from "./entity";
 
 export interface IUserService {
   getAll(): Promise<UserDTO[]>;
-  register(userData: any): Promise<UserDTO>;
+  register(userData: any): Promise<{ user: UserDTO; message: string }>;
   login(userData: any): Promise<UserDTO>;
+  delete(id: string): Promise<void>;
 }
 
 export default class UserService implements IUserService {
@@ -20,9 +21,15 @@ export default class UserService implements IUserService {
     return users.map((user: any) => new UserDTO(user));
   }
 
+  async getById(id: string) {
+    const user = await this.userRepo.findById(id);
+    return new UserDTO(user);
+  }
+
   async register(userData: User) {
-    if (!userData.email || !userData.password) {
-      throw new ApiError(400, "Missing required email and password fields");
+    const user = await this.userRepo.findByEmail(userData.email);
+    if (user) {
+      throw new ApiError(400, "User already exist");
     }
 
     userData.email_validated = false;
@@ -30,27 +37,33 @@ export default class UserService implements IUserService {
     userData.access_token = "";
     userData.refresh_token = "";
 
-    const newUser = await this.userRepo.addNew(userData);
-    return new UserDTO(newUser);
+    const newUser: UserDTO = await this.userRepo.addNew(userData);
+    return { user: newUser, message: "Account created." };
   }
 
   async login(userData: User) {
-    if (!userData.email || !userData.password)
-      throw new ApiError(400, "Missing required email and password fields");
+    if (!userData.email)
+      throw new ApiError(400, "Missing required email field.");
+    if (!userData.password)
+      throw new ApiError(400, "Missing required password field.");
 
-    const user = await this.userRepo.findByEmail(userData);
-    console.log(user);
+    const user = await this.userRepo.findByEmail(userData.email);
 
-    if (!user)
-      throw new ApiError(400, "User with the specified email does not exists");
+    if (!user) throw new ApiError(400, "User does not exists.");
 
     const passwordMatch = await this.userRepo.compareHash(
       userData.password,
       user.password
     );
-    if (!passwordMatch) throw new ApiError(400, "User password does not match");
+    if (!passwordMatch)
+      throw new ApiError(400, "User password does not match.");
 
     return new UserDTO(user);
+  }
+
+  async delete(id: string) {
+    const user = await this.userRepo.deleteById(id);
+    return user;
   }
 }
 
