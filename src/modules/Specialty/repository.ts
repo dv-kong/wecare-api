@@ -26,6 +26,10 @@ class SpecialtyRepository implements ISpecialtyRepository {
     //     return await this.manager.findOne(Specialty, id);
     //   }
 
+    async findByName(specialtyName: string) {
+        return await this.manager.findOne(Specialty, { name: specialtyName });
+    }
+
     //   async findByEmail(specialtyEmail: string) {
     //     return await this.manager.findOne(Specialty, { email: specialtyEmail });
     //   }

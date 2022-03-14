@@ -8,3 +8,6 @@ To run the app:
 - Run npm run dev
 
 The server is now listening to requests on the specified port (default: 3000).
+
+Run the docker database:
+docker-compose up --build
