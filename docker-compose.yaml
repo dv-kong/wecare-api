@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
@@ -32,5 +32,5 @@ services:
       - db
 
 volumes:
-    db-config:
-    db-data:
+  db-config:
+  db-data:
