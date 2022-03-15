@@ -3,7 +3,6 @@ import User from "./model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import env from "../../config/env";
-import ApiError from "../../helpers/error";
 class AppointmentController {
   #models;
   constructor(models) {
@@ -13,7 +12,7 @@ class AppointmentController {
    * @login takes a request, a response and a next function
    * @param
    */
-  
+
   //TODO DEFINE APPOINTMENT CONTROLLER CODE
 
 }
