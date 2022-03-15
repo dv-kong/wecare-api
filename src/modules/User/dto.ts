@@ -23,6 +23,9 @@
 // Helps hide the data
 
 class UserDTO {
+  map(arg0: (user: UserDTO) => UserDTO) {
+    throw new Error("Method not implemented.");
+  }
   //TODO (A REFACTO) Rendre private les propriétés et déclarer des getters et setters
   public id: number;
   public email: string;

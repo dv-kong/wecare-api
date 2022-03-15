@@ -2,15 +2,7 @@ import { EntityRepository, EntityManager, DeleteResult } from "typeorm";
 import bcrypt from "bcrypt";
 import { User } from "./entity";
 import UserDTO from "./dto";
-
-export interface IUserRepository {
-  findAll(): Promise<User[]>;
-  addNew(userEntity: any): Promise<UserDTO>;
-  findByEmail(userEntity: any): Promise<User | undefined>;
-  findById(id: string): Promise<User | undefined>;
-  deleteById(id: string): Promise<DeleteResult>;
-  compareHash(password: string, hash: string): Promise<boolean>;
-}
+import { IUserRepository } from "./interfaces/IUserRepository";
 
 @EntityRepository()
 class UserRepository implements IUserRepository {

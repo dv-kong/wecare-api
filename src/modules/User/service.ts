@@ -16,15 +16,15 @@ export default class UserService implements IUserService {
     this.userRepo = userRepository;
   }
 
-  async getAll() {
-    const users = await this.userRepo.findAll();
-    return users.map((user: any) => new UserDTO(user));
+  async getAll(): Promise<UserDTO[]> {
+    const users: UserDTO[] = await this.userRepo.findAll();
+    return users.map((user: UserDTO) => new UserDTO(user));
   }
 
   async getById(id: string) {
     const user = await this.userRepo.findById(id);
     return new UserDTO(user);
-  }
+  } 
 
   async register(userData: User) {
     const user = await this.userRepo.findByEmail(userData.email);
