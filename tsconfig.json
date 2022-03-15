@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
+        "types": [
+            "node",
+            "jest"
+        ],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "strictPropertyInitialization": false,
