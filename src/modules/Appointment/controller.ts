@@ -1,20 +1,22 @@
-// import ApiError from "../../helpers/ApiError"
-import User from "./model";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import env from "../../config/env";
+import { Response, Request, NextFunction } from "express";
+import {
+  Controller,
+  Middleware,
+  Get,
+  Post,
+  Put,
+  Delete,
+} from "@overnightjs/core";
+
+
+// Todo:
+// - bidir vs unidir relationships class diagram
+
+@Controller("appointements")
 class AppointmentController {
-  #models;
-  constructor(models) {
-    this.#models = models;
+
+  constructor() {
   }
-  /**
-   * @login takes a request, a response and a next function
-   * @param
-   */
-
-  //TODO DEFINE APPOINTMENT CONTROLLER CODE
-
 }
 
 export default AppointmentController;

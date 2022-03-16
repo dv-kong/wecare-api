@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
+        "types": [
+            "node",
+            "jest"
+        ],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "strictPropertyInitialization": false,
@@ -10,8 +14,10 @@
             "es6"
         ],
         "allowJs": false,
-        "outDir": "build",
-        "rootDir": "src",
+        // "outDir": "build",
+        "outDir": "./dist",
+        //"baseUrl": "./",
+        "rootDir": "./",
         "strict": true,
         "noImplicitAny": false,
         "esModuleInterop": true,

@@ -21,7 +21,7 @@ class UserController {
   }
 
   @Get()
-  @Middleware(auth.isAuth)
+  // @Middleware(auth.isAuth)
   getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let users = await this.userService.getAll();
