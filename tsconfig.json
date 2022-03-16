@@ -1,26 +1,42 @@
 {
-    "compilerOptions": {
-        "types": [
-            "node",
-            "jest"
-        ],
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "strictPropertyInitialization": false,
-        "target": "es6",
-        "module": "commonjs",
-        "lib": [
-            "es5",
-            "es6"
-        ],
-        "allowJs": false,
-        // "outDir": "build",
-        "outDir": "./dist",
-        //"baseUrl": "./",
-        "rootDir": "./",
-        "strict": true,
-        "noImplicitAny": false,
-        "esModuleInterop": true,
-        "resolveJsonModule": true
-    }
+  "compilerOptions": {
+    "types": ["node", "jest"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["es5", "es6"],
+    "allowJs": false,
+    "outDir": "./dist",
+    // "outDir": "./dist",
+    //"baseUrl": "./",
+    // "rootDir": "./",
+    "rootDir": "./",
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  }
 }
+
+// {
+//     "compilerOptions": {
+//         "experimentalDecorators": true,
+//         "emitDecoratorMetadata": true,
+//         "strictPropertyInitialization": false,
+//         "target": "es6",
+//         "module": "commonjs",
+//         "lib": [
+//             "es5",
+//             "es6"
+//         ],
+//         "allowJs": false,
+//         "outDir": "build",
+//         "rootDir": "src",
+//         "strict": true,
+//         "noImplicitAny": true,
+//         "esModuleInterop": true,
+//         "resolveJsonModule": true
+//     }
+// }

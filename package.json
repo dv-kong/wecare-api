@@ -9,7 +9,7 @@
     "dev": "nodemon -L",
     "dev:babel": "nodemon --exec babel-node ./src/app.ts",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
-    "build": "tsc -p ."
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -34,7 +34,8 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.12",
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.7",
     "@babel/node": "^7.16.0",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-transform-async-to-generator": "^7.16.8",

@@ -30,5 +30,5 @@ export default {
     apiLogger: morgan('combined', { stream: logger.stream }),
     cors: cors(corsOptions),
     csrf,
-    helmet
+    helmet: helmet()
 }
