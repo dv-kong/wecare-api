@@ -11,7 +11,7 @@
     // "outDir": "./dist",
     "outDir": "./build",
     //"baseUrl": "./",
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
