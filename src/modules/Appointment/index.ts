@@ -12,7 +12,8 @@ const models = {
     Appointment,
     // User
 };
-const controller = new AppointmentController(models);
+// const controller = new AppointmentController(models);
+const controller = new AppointmentController();
 const routes = router(controller);
 
 export default routes;
