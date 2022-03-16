@@ -1,4 +1,5 @@
 import UserDTO from "../../src/modules/User/dto";
+import { User } from "../../src/modules/User/entity";
 
 // UserDTO
 const mockaroo: any = [{
@@ -88,7 +89,31 @@ const mockaroo: any = [{
     "refresh_token": "3be02966bc0b54a323483cbb38fc2a691340ebf4"
   }]
 
-  const users: UserDTO =  mockaroo.map(user => new UserDTO(user));
+  const users: User[] = [];
   
+  mockaroo.map(user => {
+    //on accedde les proprietes de User directement, sans passer par getters,
+    //setters - mauvaise pratique - no encapsulation
+    // User entité ORM UserDTO entité 
+    //toask: getters et setters dans les classes entities
+    const userEntity = new User();
+    userEntity.role = user.role;
+    userEntity.email = user.email;
+    userEntity.email_validated = user.email_validated;
+    userEntity.password = user.password;
+    userEntity.last_name = user.last_name;
+    userEntity.first_name = user.first_name;
+    userEntity.gender = user.gender,
+    userEntity.address = user.address,
+    userEntity.city = user.city;
+    userEntity.postal_code = user.postal_code;
+    userEntity.phone_number = user.phone_number;
+    userEntity.social_security_number = user.social_security_number;
+    userEntity.banned = user.banned;
+    userEntity.access_token = user.access_token;
+    userEntity.refresh_token = user.refresh_token;
+    users.push(userEntity);
+  });
+
 
   export default users;

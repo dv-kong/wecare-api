@@ -1,10 +1,6 @@
 import UserService from "../../src/modules/User/service";
 import UserDTO from "../../src/modules/User/dto";
-
-import userRepository from "../mocks/userRepository.mock"
-
-
-// const users : UserDTO[] = [];
+import mockedRepository from "../mocks/userRepository.mock";
 
 //to do - mock repo
 
@@ -12,7 +8,7 @@ import userRepository from "../mocks/userRepository.mock"
  * supply mock to UserService
  */
 
-const userService = new UserService(userRepository); 
+const userService = new UserService(mockedRepository); 
 
 
 describe('OUR FIRST TEST', () => {

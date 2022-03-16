@@ -1,18 +1,20 @@
-import { IUserRepository } from "../../src/modules/User/interfaces/IUserRepository";
+import IUserRepository  from "../../src/modules/User/interfaces/IUserRepository";
 import UserDTO from "../../src/modules/User/dto";
 import { User } from "../../src/modules/User/entity";
 import UserService from "../../src/modules/User/service";
-import users from "./users.mock";
+import users from "./users";
 
-const userRepository: IUserRepository = {
+
+// const books: Book[] = [];
+
+const mockedRepository: IUserRepository = {
     
-    findAll: jest.fn((): Promise<User[]> => {
-
-
-        return users;
+    findAll: jest.fn(async (): Promise<User[]> => {
+        return await users;
     }),
 
-    addNew: function (userEntity: any): Promise<UserDTO> {
+    addNew: function (userEntity: any): Promise<any> {
+        // addNew: function (userEntity: any): Promise<User> {
         throw new Error("Function not implemented.")
     },
     findByEmail: function (userEntity: any): Promise<any> {
@@ -29,4 +31,4 @@ const userRepository: IUserRepository = {
     }
 }
 
-export default userRepository;
+export default mockedRepository;

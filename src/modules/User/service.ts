@@ -1,8 +1,11 @@
 import UserDTO from "./dto";
 import { ApiError } from "../../helpers/error";
-import { IUserRepository } from "./repository";
+
+//todo: import interface 
+import IUserRepository from "./interfaces/IUserRepository";
 import { User } from "./entity";
 
+// 
 export interface IUserService {
   getAll(): Promise<UserDTO[]>;
   register(userData: any): Promise<{ user: UserDTO; message: string }>;
@@ -17,8 +20,8 @@ export default class UserService implements IUserService {
   }
 
   async getAll(): Promise<UserDTO[]> {
-    const users: UserDTO[] = await this.userRepo.findAll();
-    return users.map((user: UserDTO) => new UserDTO(user));
+    const users: User[] = await this.userRepo.findAll();
+    return users.map((user: User) => new UserDTO(user));
   }
 
   async getById(id: string) {
