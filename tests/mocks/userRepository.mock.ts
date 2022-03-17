@@ -1,6 +1,13 @@
 import IUserRepository from "../../src/modules/User/interfaces/IUserRepository";
 import { User } from "../../src/modules/User/entity";
 import users from "./users";
+import { createMock } from "ts-auto-mock";
+
+// const mock = createMock<new (object) => IUserRepository>({
+//   findAll: async (): Promise<User[]> => {
+//     return await users;
+//   },
+// });
 
 const mockedRepository: IUserRepository = {
   findAll: jest.fn(async (): Promise<User[]> => {

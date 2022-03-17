@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efc0deeb-5011-4b84-a5e5-2b9bedd6b024" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/integrations/userInMemory.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/mocks/entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jest.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/mocks/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/mocks/users.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/mocks/userRepository.mock.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/mocks/userRepository.mock.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +61,7 @@
       <workItem from="1647350613559" duration="646000" />
       <workItem from="1647525269709" duration="28000" />
       <workItem from="1647525306705" duration="8525000" />
+      <workItem from="1647544409210" duration="597000" />
     </task>
     <servers />
   </component>
