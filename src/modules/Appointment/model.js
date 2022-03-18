@@ -1,5 +1,5 @@
 import { Model, DataTypes, UUID, UUIDV4 } from "sequelize";
-import db from "../../config/db.js";
+import db from "../../config/database.js";
 import Joi from "joi";
 
 class Appointment extends Model {
@@ -40,7 +40,7 @@ class Appointment extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { as: "appointment_id"});
+    this.belongsTo(models.User, { as: "appointment_id" });
     return this;
   }
 }
