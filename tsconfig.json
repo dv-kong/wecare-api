@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "plugins": [
+      {
+        "transform": "ts-auto-mock/transformer",
+        "cacheBetweenTests": false
+      }
+    ],
     "types": ["node", "jest"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -8,10 +14,10 @@
     "module": "commonjs",
     "lib": ["es5", "es6"],
     "allowJs": false,
-    // "outDir": "./dist",
-    "outDir": "./build",
+    // "outDir": "build",
+    "outDir": "./dist",
     //"baseUrl": "./",
-    "rootDir": "./src",
+    "rootDir": "./",
     "strict": true,
     "noImplicitAny": false,
     "esModuleInterop": true,

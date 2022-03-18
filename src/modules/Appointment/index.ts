@@ -1,19 +1,13 @@
-import router from './router';
-import AppointmentController from './controller';
-import Appointment from './model';
-// import User from './../user/model';
-// import User from '../User/model';
+import router from "./router";
+import AppointmentController from "./controller";
+import Appointment from "./model";
 
 /**
  * Dependancy injection
  */
 
-const models = {
-    Appointment,
-    // User
-};
+// const models = {Appointment, User};
 // const controller = new AppointmentController(models);
-const controller = new AppointmentController();
-const routes = router(controller);
+// const routes = router(controller);
 
-export default routes;
+// export default routes;
