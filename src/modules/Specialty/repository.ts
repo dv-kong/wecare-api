@@ -6,7 +6,7 @@ export interface ISpecialtyRepository {
     //   findAll(): Promise<Specialty[]>;
     addNew(specialtyEntity: any): Promise<SpecialtyDTO>;
     //   findById(id: string): Promise<Specialty | undefined>;
-    update(id: string): Promise<SpecialtyDTO>;
+    update(specialtyEntity: any): Promise<Specialty>;
     //   deleteById(id: string): Promise<DeleteResult>;
 }
 
@@ -36,9 +36,8 @@ class SpecialtyRepository implements ISpecialtyRepository {
     //   }
 
     async update(specialtyData: any) {
-        let specialtyToUpdate = await specialtyRepository.findOne(Specialty, { id: specialtyData.id });
-        specialtyToUpdate.name = specialtyData.name;
-        await specialtyRepository.save(specialtyToUpdate);
+        let specialtyToUpdate = await this.manager.findOne(Specialty, { id: specialtyData.id });
+        return await this.manager.save(Specialty, specialtyToUpdate);
 
 
     }

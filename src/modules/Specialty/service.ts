@@ -6,7 +6,7 @@ import { Specialty } from "./entity";
 export interface ISpecialtyService {
     // getAll(): Promise<SpecialtyDTO[]>;
     create(specialtyData: any): Promise<{ specialty: SpecialtyDTO; message: string }>;
-    update(specialtyData: any): Promise<SpecialtyDTO>;
+    update(specialtyData: any): Promise<{ specialty: SpecialtyDTO; message: string }>;
     // delete(id: string): Promise<void>;
 }
 
@@ -34,6 +34,16 @@ export default class SpecialtyService implements ISpecialtyService {
         const newSpecialty: SpecialtyDTO = await this.userRepo.addNew(specialtyData);
         return { specialty: newSpecialty, message: "Specialty created." };
     }
+
+    async update(specialtyData: Specialty) {
+        const specialtyToUpdate = await this.userRepo.findByName(specialtyData.name);
+        if (!specialtyToUpdate) {
+            throw new ApiError(400, "Specialty does not exists.");
+        }
+        const updatedSpecialty: SpecialtyDTO = await this.userRepo.update(specialtyData);
+        return { specialty: updatedSpecialty, message: "Specialty updated." };
+    }
+
 
     //   async login(userData: Specialty) {
     //     if (!userData.email)

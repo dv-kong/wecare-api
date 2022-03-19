@@ -40,11 +40,21 @@ class SpecialtyController {
     //   }
 
     // @Middleware(auth.isAuth) // + admin
-    @Post("create")
+    @Post("")
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const specialty = await this.specialtyService.create({ ...req.body });
-            res.status(201).json(specialty);
+            res.status(201).json({ specialty, message: "Successfully created specialty." });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    @Put("")
+    update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const updatedSpecialty = await this.specialtyService.update({ ...req.body });
+            res.status(201).json({ updatedSpecialty, message: "Succesfully updated specialty." });
         } catch (err) {
             next(err);
         }
