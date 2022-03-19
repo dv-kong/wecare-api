@@ -13,7 +13,7 @@ jobs:
       APP_PORT: ${{ secrets.APP_PORT }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       TYPEORM_CONNECTION: ${{ secrets.TYPEORM_CONNECTION }}
-      TYPEORM_HOST: ${{ secrets.TYPEORM_HOST }}
+      TYPEORM_HOST: localhost
       TYPEORM_USERNAME: ${{ secrets.TYPEORM_USERNAME }}
       TYPEORM_PASSWORD: ${{ secrets.TYPEORM_PASSWORD }}
       TYPEORM_DATABASE: mysql
@@ -21,7 +21,7 @@ jobs:
       TYPEORM_SYNCHRONIZE: ${{ secrets.TYPEORM_SYNCHRONIZE }}
       TYPEORM_LOGGING: ${{ secrets.TYPEORM_LOGGING }}
       TYPEORM_MIGRATIONS_RUN: ${{ secrets.TYPEORM_MIGRATIONS_RUN }}
-      TYPEORM_ENTITIES: ${{ secrets.TYPEORM_ENTITIES }}
+      TYPEORM_ENTITIES: src/modules/**/entity.ts
     
     services:
       mysql:
