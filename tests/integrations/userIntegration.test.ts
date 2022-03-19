@@ -17,7 +17,7 @@ afterAll(async () => {
 });
 
 describe("POST user", () => {
-  xit("Should return a 201 status code when user is created.", async () => {
+  it("Should return a 201 status code when user is created.", async () => {
     const result = await request(server.app)
       .post("/users/register")
       .send({
@@ -43,7 +43,7 @@ describe("POST user", () => {
 });
 
 describe("GET filled /users", () => {
-  xit("Should return a 200 status code and a array of the existing users.", async () => {
+  it("Should return a 200 status code and a array of the existing users.", async () => {
     const result = await request(server.app).get("/users").expect(200);
 
     expect(result.body.length).toBeGreaterThan(0);
