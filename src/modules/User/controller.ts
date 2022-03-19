@@ -99,7 +99,7 @@ class UserController {
   @Get("test")
   test = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      res.status(200).json({ message: "Hello world! AA" });
+      res.status(200).json({ message: "hello world!!" });
     } catch (err) {
       next(err);
     }
