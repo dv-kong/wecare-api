@@ -104,6 +104,9 @@ class UserController {
       next(err);
     }
   };
+
+};
+
 }
 
 export default UserController;
