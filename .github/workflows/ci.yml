@@ -10,24 +10,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      APP_PORT: ${{ secrets.APP_PORT }}
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      TYPEORM_CONNECTION: ${{ secrets.TYPEORM_CONNECTION }}
+      APP_PORT: 3000
+      JWT_SECRET: helloWorld
+      TYPEORM_CONNECTION: mysql
       TYPEORM_HOST: localhost
-      TYPEORM_USERNAME: ${{ secrets.TYPEORM_USERNAME }}
-      TYPEORM_PASSWORD: ${{ secrets.TYPEORM_PASSWORD }}
-      TYPEORM_DATABASE: mysql
-      TYPEORM_PORT: ${{ secrets.TYPEORM_PORT }}
-      TYPEORM_SYNCHRONIZE: ${{ secrets.TYPEORM_SYNCHRONIZE }}
-      TYPEORM_LOGGING: ${{ secrets.TYPEORM_LOGGING }}
-      TYPEORM_MIGRATIONS_RUN: ${{ secrets.TYPEORM_MIGRATIONS_RUN }}
+      TYPEORM_USERNAME: root
+      TYPEORM_PASSWORD: root
+      TYPEORM_DATABASE: wecare_db
+      TYPEORM_PORT: 3306
+      TYPEORM_SYNCHRONIZE: true
+      TYPEORM_LOGGING: true
+      TYPEORM_MIGRATIONS_RUN: false
       TYPEORM_ENTITIES: src/modules/**/entity.ts
     
     services:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: root
         ports:
             - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
