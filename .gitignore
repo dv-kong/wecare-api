@@ -105,3 +105,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+.DS_Store
+.history/
+
+# IdealJ files
+.idea
