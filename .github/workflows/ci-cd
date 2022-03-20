@@ -1,0 +1,91 @@
+name: CI - Units and Integration tests
+
+on:
+  pull_request:
+    types: [review_requested, opened, reopened, synchronize]
+    branches:
+    - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      APP_PORT: ${{ secrets.APP_PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      TYPEORM_CONNECTION: ${{ secrets.TYPEORM_CONNECTION }}
+      TYPEORM_HOST: ${{ secrets.TYPEORM_HOST }}
+      TYPEORM_USERNAME: ${{ secrets.TYPEORM_USERNAME }}
+      TYPEORM_PASSWORD: ${{ secrets.TYPEORM_PASSWORD }}
+      TYPEORM_DATABASE: ${{ secrets.TYPEORM_DATABASE }}
+      TYPEORM_PORT: ${{ secrets.TYPEORM_PORT }}
+      TYPEORM_SYNCHRONIZE: ${{ secrets.TYPEORM_SYNCHRONIZE }}
+      TYPEORM_LOGGING: ${{ secrets.TYPEORM_LOGGING }}
+      TYPEORM_MIGRATIONS_RUN: ${{ secrets.TYPEORM_MIGRATIONS_RUN }}
+      TYPEORM_ENTITIES: ${{ secrets.TYPEORM_ENTITIES }}
+    
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.TYPEORM_PASSWORD }}
+        ports:
+            - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: start mysql service
+      run: |
+          sudo /lib/systemd/systemd-sysv-install enable mysql
+          sudo systemctl enable mysql.service
+          sudo systemctl start mysql.service
+          sudo systemctl status mysql.service
+          mysql --host 127.0.0.1 --port ${{ secrets.TYPEORM_PORT }} -uroot -proot -e "${{ secrets.TYPEORM_DATABASE }}"
+          
+    - name: Install node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm run test
+      
+name: CD - Build & Deploy & Release
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run build
+        run: npm run build
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: "just-a-placeholder-so-we-dont-get-errors"
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: rsync -avz ./dist ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/wecare-api/
