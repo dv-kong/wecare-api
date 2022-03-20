@@ -1,4 +1,4 @@
-name: CI - Units and Integration tests
+name: CI - Units and Integration tests / CD - Build & Deploy & Release
 
 on:
   pull_request:
@@ -55,13 +55,6 @@ jobs:
     - name: Run tests
       run: npm run test
       
-name: CD - Build & Deploy & Release
-
-on:
-  push:
-    branches:
-      - main
-jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
@@ -89,3 +82,5 @@ jobs:
 
       - name: Deploy with rsync
         run: rsync -avz ./dist ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/wecare-api/
+     
+  
