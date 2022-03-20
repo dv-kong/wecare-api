@@ -49,7 +49,7 @@ jobs:
           sudo systemctl start mysql.service
           sudo systemctl status mysql.service
           mysql --host 127.0.0.1 --port ${{ secrets.TYPEORM_PORT }} -uroot -proot -e ${{ secrets.TYPEORM_DATABASE }} 
-          # Add CREATE DATABASE db_name to secrets.TYPEORM_DATABASE instead of db_name
+      # Add CREATE DATABASE db_name to secrets.TYPEORM_DATABASE instead of db_name
           
     - name: Install node
       uses: actions/setup-node@v2
