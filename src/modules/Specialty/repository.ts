@@ -28,14 +28,8 @@ class SpecialtyRepository implements ISpecialtyRepository {
     }
     async findById(specialtyId: string) {
         const id = specialtyId;
-        console.log(`!! findById --> ID`, id);
-
         return await this.manager.findOne(Specialty, id);
     }
-    //   async findByEmail(specialtyEmail: string) {
-    //     return await this.manager.findOne(Specialty, { email: specialtyEmail });
-    //   }
-
     async update(specialtyData): Promise<Specialty> {
         let specialtyToUpdate = await this.manager.findOne(Specialty, { id: specialtyData.id });
         return await this.manager.save(Specialty, specialtyData);
@@ -45,12 +39,8 @@ class SpecialtyRepository implements ISpecialtyRepository {
 
     async deleteById(id: string): Promise<DeleteResult> {
         return await this.manager.delete(Specialty, id);
-        // return await this.manager.remove(Specialty, id);
     }
 
-    //   compareHash = async (password: string, hash: string) =>
-    //     await bcrypt.compareSync(password, hash);
-    // }
 }
 export default SpecialtyRepository;
 

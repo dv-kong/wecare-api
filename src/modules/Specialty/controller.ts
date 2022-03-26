@@ -28,19 +28,20 @@ class SpecialtyController {
         }
     };
 
-    //   @Get(":id")
-    //   async getById(req: Request, res: Response, next: NextFunction): Promise<any> {
-    //     let id = req.params.id;
-    //     try {
-    //       const specialty = await this.specialtyService.getById(id);
-    //       res.status(200).json(specialty);
-    //     } catch (err) {
-    //       next(err);
-    //     }
-    //   }
+    @Post("id")
+    // @Middleware(auth.isAuth)
+    async getById(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const id = req.body.id;
+        try {
+            const specialty = await this.specialtyService.getById(id);
+            res.status(200).json(specialty);
+        } catch (err) {
+            next(err);
+        }
+    }
 
-    // @Middleware(auth.isAuth) // + admin
     @Post()
+    // @Middleware(auth.isAuth) // + admin
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const specialty = await this.specialtyService.create({ ...req.body });

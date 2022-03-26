@@ -8,6 +8,7 @@ export interface ISpecialtyService {
     create(specialtyData: any): Promise<{ specialty: SpecialtyDTO; }>;
     update(specialtyData: any): Promise<SpecialtyDTO>;
     delete(id: string): Promise<void>;
+    getById(id: string): Promise<Specialty | undefined>;
 }
 
 export default class SpecialtyService implements ISpecialtyService {
@@ -21,9 +22,9 @@ export default class SpecialtyService implements ISpecialtyService {
         return specialtys.map((specialty: any) => new SpecialtyDTO(specialty));
     }
 
-    async getById(id: string) {
+    async getById(id: string): Promise<Specialty | undefined> {
         const specialty = await this.specialtyRepo.findById(id);
-        return new SpecialtyDTO(specialty);
+        return specialty;
     }
 
     async create(specialtyData: Specialty) {
@@ -50,28 +51,6 @@ export default class SpecialtyService implements ISpecialtyService {
         const updatedSpecialty: SpecialtyDTO = await this.specialtyRepo.update(specialtyData);
         return updatedSpecialty;
     }
-
-
-    //   async login(specialtyData: Specialty) {
-    //     if (!specialtyData.email)
-    //       throw new ApiError(400, "Missing required email field.");
-    //     if (!specialtyData.password)
-    //       throw new ApiError(400, "Missing required password field.");
-
-    //     const specialty = await this.specialtyRepo.findByEmail(specialtyData.email);
-
-    //     if (!specialty) throw new ApiError(400, "Specialty does not exists.");
-
-    //     const passwordMatch = await this.specialtyRepo.compareHash(
-    //       specialtyData.password,
-    //       specialty.password
-    //     );
-    //     if (!passwordMatch)
-    //       throw new ApiError(400, "Specialty password does not match.");
-
-    //     return new SpecialtyDTO(specialty);
-    //   }
-
     async delete(id: string) {
 
         if (!id) {
