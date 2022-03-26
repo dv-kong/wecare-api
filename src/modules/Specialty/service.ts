@@ -4,9 +4,9 @@ import { ISpecialtyRepository } from "./repository";
 import { Specialty } from "./entity";
 
 export interface ISpecialtyService {
-    // getAll(): Promise<SpecialtyDTO[]>;
-    create(specialtyData: any): Promise<{ specialty: SpecialtyDTO; message: string }>;
-    update(specialtyData: any): Promise<{ specialty: SpecialtyDTO; message: string }>;
+    getAll(): Promise<SpecialtyDTO[]>;
+    create(specialtyData: any): Promise<{ specialty: SpecialtyDTO; }>;
+    update(specialtyData: any): Promise<SpecialtyDTO>;
     // delete(id: string): Promise<void>;
 }
 
@@ -16,10 +16,10 @@ export default class SpecialtyService implements ISpecialtyService {
         this.userRepo = userRepository;
     }
 
-    //   async getAll() {
-    //     const users = await this.userRepo.findAll();
-    //     return users.map((user: any) => new SpecialtyDTO(user));
-    //   }
+    async getAll() {
+        const users = await this.userRepo.findAll();
+        return users.map((user: any) => new SpecialtyDTO(user));
+    }
 
     //   async getById(id: string) {
     //     const user = await this.userRepo.findById(id);
@@ -30,18 +30,25 @@ export default class SpecialtyService implements ISpecialtyService {
         const specialty = await this.userRepo.findByName(specialtyData.name);
         if (specialty) {
             throw new ApiError(400, "Specialty already exists.");
+
+        } else {
+
+            const newSpecialty: SpecialtyDTO = await this.userRepo.addNew(specialtyData);
+            return { specialty: newSpecialty, message: "Specialty created." };
         }
-        const newSpecialty: SpecialtyDTO = await this.userRepo.addNew(specialtyData);
-        return { specialty: newSpecialty, message: "Specialty created." };
     }
 
     async update(specialtyData: Specialty) {
-        const specialtyToUpdate = await this.userRepo.findByName(specialtyData.name);
+
+        if (!specialtyData.id) {
+            throw new ApiError(401, "Required ID not provided.");
+        }
+        const specialtyToUpdate = await this.userRepo.findById(specialtyData.id);
         if (!specialtyToUpdate) {
             throw new ApiError(400, "Specialty does not exists.");
         }
         const updatedSpecialty: SpecialtyDTO = await this.userRepo.update(specialtyData);
-        return { specialty: updatedSpecialty, message: "Specialty updated." };
+        return updatedSpecialty;
     }
 
 

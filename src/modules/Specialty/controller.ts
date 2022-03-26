@@ -17,16 +17,16 @@ class SpecialtyController {
         this.specialtyService = specialtyService;
     }
 
-    //   @Get()
+    @Get()
     //   @Middleware(auth.isAuth)
-    //   getAll = async (req: Request, res: Response, next: NextFunction) => {
-    //     try {
-    //       let specialtys = await this.specialtyService.getAll();
-    //       res.status(200).json(specialtys);
-    //     } catch (err) {
-    //       next(err);
-    //     }
-    //   };
+    getAll = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            let specialties = await this.specialtyService.getAll();
+            res.status(200).json(specialties);
+        } catch (err) {
+            next(err);
+        }
+    };
 
     //   @Get(":id")
     //   async getById(req: Request, res: Response, next: NextFunction): Promise<any> {
@@ -40,7 +40,7 @@ class SpecialtyController {
     //   }
 
     // @Middleware(auth.isAuth) // + admin
-    @Post("")
+    @Post()
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const specialty = await this.specialtyService.create({ ...req.body });
@@ -50,11 +50,11 @@ class SpecialtyController {
         }
     };
 
-    @Put("")
+    @Put()
     update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const updatedSpecialty = await this.specialtyService.update({ ...req.body });
-            res.status(201).json({ updatedSpecialty, message: "Succesfully updated specialty." });
+            res.status(201).json({ specialty: updatedSpecialty, message: "Succesfully updated specialty." });
         } catch (err) {
             next(err);
         }

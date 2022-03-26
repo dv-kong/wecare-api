@@ -4,7 +4,7 @@ import SpecialtyDTO from "./dto";
 
 export interface ISpecialtyRepository {
     //   findAll(): Promise<Specialty[]>;
-    addNew(specialtyEntity: any): Promise<SpecialtyDTO>;
+    addNew(specialtyEntity: any): Promise<Specialty>;
     //   findById(id: string): Promise<Specialty | undefined>;
     update(specialtyEntity: any): Promise<Specialty>;
     //   deleteById(id: string): Promise<DeleteResult>;
@@ -14,13 +14,13 @@ export interface ISpecialtyRepository {
 class SpecialtyRepository implements ISpecialtyRepository {
     constructor(private manager: EntityManager) { }
 
-    //   async findAll() {
-    //     return await this.manager.find(Specialty);
-    //   }
+    async findAll() {
+        return await this.manager.find(Specialty);
+    }
 
-    async addNew(specialtyEntity) {
+    async addNew(specialtyEntity): Promise<Specialty> {
         const newSpecialty = await this.manager.save(Specialty, specialtyEntity);
-        return new SpecialtyDTO(newSpecialty);
+        return this.manager.save(Specialty, specialtyEntity);
     }
 
     //   async findById(id: string) {
@@ -30,14 +30,16 @@ class SpecialtyRepository implements ISpecialtyRepository {
     async findByName(specialtyName: string) {
         return await this.manager.findOne(Specialty, { name: specialtyName });
     }
-
+    async findById(specialtyId: string) {
+        return await this.manager.findOne(Specialty, { id: specialtyId });
+    }
     //   async findByEmail(specialtyEmail: string) {
     //     return await this.manager.findOne(Specialty, { email: specialtyEmail });
     //   }
 
-    async update(specialtyData: any) {
+    async update(specialtyData): Promise<Specialty> {
         let specialtyToUpdate = await this.manager.findOne(Specialty, { id: specialtyData.id });
-        return await this.manager.save(Specialty, specialtyToUpdate);
+        return await this.manager.save(Specialty, specialtyData);
 
 
     }
