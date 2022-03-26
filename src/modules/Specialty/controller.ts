@@ -18,7 +18,7 @@ class SpecialtyController {
     }
 
     @Get()
-    //   @Middleware(auth.isAuth)
+    @Middleware(auth.isAuth)
     getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
             let specialties = await this.specialtyService.getAll();
@@ -41,7 +41,7 @@ class SpecialtyController {
     }
 
     @Post()
-    // @Middleware(auth.isAuth) // + admin
+    // @Middleware(auth.isAuth) // step 1: logged in user, step 2: admin rights
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const specialty = await this.specialtyService.create({ ...req.body });

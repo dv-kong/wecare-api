@@ -10,21 +10,24 @@ class AuthMiddleware {
 
   isAuth = async (req: Request | any, res: Response, next: NextFunction) => {
     try {
-      const token = req.cookies['auth-cookie'];
+      // const token = req.cookies['auth-cookie'];
+      const token = req.headers.authorization.split(' ')[1];
+      console.log(`!!token ->`, token);
 
       if (!token) {
-        return res.status(401).json('Session expired');
+        return res.status(401).json('Token not provided.');
       }
 
-      // Verify Token
+      // verify Token
       const decoded = await this.jwt.decodeToken(token);
+      console.log(`!!decoded token ->`, decoded);
 
-      // if the user has permissionsm
+      // if the user has permissions
       req.currentUserId = decoded.id;
       next();
 
     } catch (e) {
-      return res.status(401).json('Authentication failed: \n' + e);
+      return res.status(401).json('Authentication failed: ' + e);
     }
   }
 }
