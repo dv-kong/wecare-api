@@ -45,7 +45,7 @@ class SpecialtyController {
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const specialty = await this.specialtyService.create({ ...req.body });
-            res.status(201).json({ specialty, message: "Successfully created specialty." });
+            res.status(201).json(specialty);
         } catch (err) {
             next(err);
         }
@@ -55,7 +55,7 @@ class SpecialtyController {
     update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const updatedSpecialty = await this.specialtyService.update({ ...req.body });
-            res.status(201).json({ specialty: updatedSpecialty, message: "Succesfully updated specialty." });
+            res.status(201).json({ specialty: updatedSpecialty });
         } catch (err) {
             next(err);
         }
