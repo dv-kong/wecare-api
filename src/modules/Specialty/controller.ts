@@ -61,23 +61,17 @@ class SpecialtyController {
     };
 
 
-    //   @Delete(":id")
-    //   // @Middleware(auth.isAuth)
-    //   deleteById = async (req: Request, res: Response, next: NextFunction) => {
-    //     try {
-    //       // if (!specialty) {
-    //       //   res.status(404).json({ message: "Specialty does not exists." });
-    //       // }
-    //       const deletedSpecialty = await this.specialtyService.delete({ ...req.body.id });
-    //       console.log(`deletedSpecialty msg ->`, deletedSpecialty);
-    //       // deleted ?
-    //       res
-    //         .status(200)
-    //         .json({ message: `Successfully deleted specialty with ID: ${req.body.id}` });
-    //     } catch (err) {
-    //       next(err);
-    //     }
-    //   };
+    @Delete()
+    // @Middleware(auth.isAuth)
+    deleteById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+
+            const deletedSpecialty = await this.specialtyService.delete(req.body.id);
+            res.status(200).json({ deletedSpecialty, message: `Successfully deleted specialty with ID: ${req.body.id}` });
+        } catch (err) {
+            next(err);
+        }
+    };
 }
 
 export default SpecialtyController;

@@ -7,33 +7,33 @@ export interface ISpecialtyService {
     getAll(): Promise<SpecialtyDTO[]>;
     create(specialtyData: any): Promise<{ specialty: SpecialtyDTO; }>;
     update(specialtyData: any): Promise<SpecialtyDTO>;
-    // delete(id: string): Promise<void>;
+    delete(id: string): Promise<void>;
 }
 
 export default class SpecialtyService implements ISpecialtyService {
-    private userRepo;
-    constructor(userRepository: ISpecialtyRepository) {
-        this.userRepo = userRepository;
+    private specialtyRepo;
+    constructor(specialtyRepository: ISpecialtyRepository) {
+        this.specialtyRepo = specialtyRepository;
     }
 
     async getAll() {
-        const users = await this.userRepo.findAll();
-        return users.map((user: any) => new SpecialtyDTO(user));
+        const specialtys = await this.specialtyRepo.findAll();
+        return specialtys.map((specialty: any) => new SpecialtyDTO(specialty));
     }
 
-    //   async getById(id: string) {
-    //     const user = await this.userRepo.findById(id);
-    //     return new SpecialtyDTO(user);
-    //   }
+    async getById(id: string) {
+        const specialty = await this.specialtyRepo.findById(id);
+        return new SpecialtyDTO(specialty);
+    }
 
     async create(specialtyData: Specialty) {
-        const specialty = await this.userRepo.findByName(specialtyData.name);
+        const specialty = await this.specialtyRepo.findByName(specialtyData.name);
         if (specialty) {
             throw new ApiError(400, "Specialty already exists.");
 
         } else {
 
-            const newSpecialty: SpecialtyDTO = await this.userRepo.addNew(specialtyData);
+            const newSpecialty: SpecialtyDTO = await this.specialtyRepo.addNew(specialtyData);
             return { specialty: newSpecialty, message: "Specialty created." };
         }
     }
@@ -43,37 +43,45 @@ export default class SpecialtyService implements ISpecialtyService {
         if (!specialtyData.id) {
             throw new ApiError(401, "Required ID not provided.");
         }
-        const specialtyToUpdate = await this.userRepo.findById(specialtyData.id);
+        const specialtyToUpdate = await this.specialtyRepo.findById(specialtyData.id);
         if (!specialtyToUpdate) {
             throw new ApiError(400, "Specialty does not exists.");
         }
-        const updatedSpecialty: SpecialtyDTO = await this.userRepo.update(specialtyData);
+        const updatedSpecialty: SpecialtyDTO = await this.specialtyRepo.update(specialtyData);
         return updatedSpecialty;
     }
 
 
-    //   async login(userData: Specialty) {
-    //     if (!userData.email)
+    //   async login(specialtyData: Specialty) {
+    //     if (!specialtyData.email)
     //       throw new ApiError(400, "Missing required email field.");
-    //     if (!userData.password)
+    //     if (!specialtyData.password)
     //       throw new ApiError(400, "Missing required password field.");
 
-    //     const user = await this.userRepo.findByEmail(userData.email);
+    //     const specialty = await this.specialtyRepo.findByEmail(specialtyData.email);
 
-    //     if (!user) throw new ApiError(400, "Specialty does not exists.");
+    //     if (!specialty) throw new ApiError(400, "Specialty does not exists.");
 
-    //     const passwordMatch = await this.userRepo.compareHash(
-    //       userData.password,
-    //       user.password
+    //     const passwordMatch = await this.specialtyRepo.compareHash(
+    //       specialtyData.password,
+    //       specialty.password
     //     );
     //     if (!passwordMatch)
     //       throw new ApiError(400, "Specialty password does not match.");
 
-    //     return new SpecialtyDTO(user);
+    //     return new SpecialtyDTO(specialty);
     //   }
 
-    //   async delete(id: string) {
-    //     const user = await this.userRepo.deleteById(id);
-    //     return user;
-    //   }
+    async delete(id: string) {
+
+        if (!id) {
+            throw new ApiError(401, "Required ID not provided.");
+        }
+        const specialtytoDelete = await this.specialtyRepo.findById(id);
+        if (!specialtytoDelete) {
+            throw new ApiError(400, "Specialty does not exists.");
+        }
+        const deletedSpecialty = await this.specialtyRepo.deleteById(id);
+        return deletedSpecialty;
+    }
 }

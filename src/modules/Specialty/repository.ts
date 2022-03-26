@@ -3,11 +3,11 @@ import { Specialty } from "./entity";
 import SpecialtyDTO from "./dto";
 
 export interface ISpecialtyRepository {
-    //   findAll(): Promise<Specialty[]>;
+    findAll(): Promise<Specialty[]>;
+    findById(id: string): Promise<Specialty | undefined>;
     addNew(specialtyEntity: any): Promise<Specialty>;
-    //   findById(id: string): Promise<Specialty | undefined>;
     update(specialtyEntity: any): Promise<Specialty>;
-    //   deleteById(id: string): Promise<DeleteResult>;
+    deleteById(id: string): Promise<DeleteResult>;
 }
 
 @EntityRepository()
@@ -23,15 +23,14 @@ class SpecialtyRepository implements ISpecialtyRepository {
         return this.manager.save(Specialty, specialtyEntity);
     }
 
-    //   async findById(id: string) {
-    //     return await this.manager.findOne(Specialty, id);
-    //   }
-
     async findByName(specialtyName: string) {
         return await this.manager.findOne(Specialty, { name: specialtyName });
     }
     async findById(specialtyId: string) {
-        return await this.manager.findOne(Specialty, { id: specialtyId });
+        const id = specialtyId;
+        console.log(`!! findById --> ID`, id);
+
+        return await this.manager.findOne(Specialty, id);
     }
     //   async findByEmail(specialtyEmail: string) {
     //     return await this.manager.findOne(Specialty, { email: specialtyEmail });
@@ -44,10 +43,10 @@ class SpecialtyRepository implements ISpecialtyRepository {
 
     }
 
-    //   async deleteById(id: string): Promise<DeleteResult> {
-    //     return await this.manager.delete(Specialty, id);
-    //     // return await this.manager.remove(Specialty, id);
-    //   }
+    async deleteById(id: string): Promise<DeleteResult> {
+        return await this.manager.delete(Specialty, id);
+        // return await this.manager.remove(Specialty, id);
+    }
 
     //   compareHash = async (password: string, hash: string) =>
     //     await bcrypt.compareSync(password, hash);
