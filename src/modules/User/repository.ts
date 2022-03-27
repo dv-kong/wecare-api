@@ -4,8 +4,7 @@ import { User } from "./entity";
 import UserDTO from "./dto";
 import IUserRepository from "./interfaces/IUserRepository";
 
-// data access layer -> repository have methods to manipulate the database 
-
+// data access layer -> repository have methods to manipulate the database
 
 @EntityRepository()
 class UserRepository implements IUserRepository {
@@ -31,7 +30,7 @@ class UserRepository implements IUserRepository {
 
   async deleteById(id: string): Promise<void> {
     //TODO voir DefaultResult
-    // 
+    //
     await this.manager.delete(User, id);
     // return await this.manager.remove(User, id);
   }
@@ -41,4 +40,3 @@ class UserRepository implements IUserRepository {
 }
 
 export default UserRepository;
-
