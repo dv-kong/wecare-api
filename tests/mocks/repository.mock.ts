@@ -12,6 +12,7 @@ class RepositoryMock {
   async findAll(): Promise<any[]> {
     return await this.datas;
   }
+
   async deleteById(id: any): Promise<any> {
     const dataFound = await this.datas.find((data) => data.id === id);
     if (dataFound === undefined) {
@@ -29,7 +30,7 @@ class RepositoryMock {
     return await this.datas.find((data) => data.id === id);
   }
 
-  async update(id: any, data: any) {
+  async updateById(id: any, data: any) {
     let response;
     const dataFound = this.datas.find((data) => data.id === id);
 
@@ -49,9 +50,6 @@ class RepositoryMock {
     this.datas[indexOfDataFound] = obj;
 
     return { response, data: this.datas[indexOfDataFound] };
-  }
-  async getJob(id: any): Promise<any> {
-    return await this.datas.find((data) => data.id === id);
   }
 }
 

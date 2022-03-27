@@ -1,5 +1,4 @@
 import { DeleteResult } from "typeorm";
-import PractitionnerDTO from "../dto";
 import Practitionner from "../entity";
 
 export default interface IPractitionnerRepository {
