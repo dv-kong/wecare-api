@@ -30,7 +30,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "prettier": "^2.4.1",
-    "sequelize": "^6.12.0-alpha.1",
+    "sequelize": "^7.0.0-alpha.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {
