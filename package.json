@@ -51,7 +51,7 @@
     "jest": "^27.5.1",
     "jest-ts-auto-mock": "^2.1.0",
     "nodemon": "^2.0.15",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.1.5",
     "supertest": "^6.2.2",
     "ts-auto-mock": "^3.5.0",
     "ts-jest": "^27.1.3",
